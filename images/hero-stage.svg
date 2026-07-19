@@ -1,0 +1,49 @@
+<svg width="1920" height="860" viewBox="0 0 1920 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="floorGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(952 640) rotate(90) scale(250 960)">
+      <stop stop-color="#B8833D" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#0A0A0A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wall" x1="960" y1="20" x2="960" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#181818"/>
+      <stop offset="0.5" stop-color="#0F0F0F"/>
+      <stop offset="1" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="goldBeam" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#E2B061" stop-opacity="0.05"/>
+      <stop offset="0.45" stop-color="#E2B061" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#E2B061" stop-opacity="0.06"/>
+    </linearGradient>
+    <filter id="blurBeam" x="-120" y="-120" width="340" height="1100" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="860" fill="#0A0A0A"/>
+  <rect x="0" y="0" width="1920" height="860" fill="url(#wall)"/>
+
+  <rect x="450" y="0" width="4" height="860" fill="#2B2B2B"/>
+  <rect x="730" y="0" width="4" height="860" fill="#2B2B2B"/>
+  <rect x="1010" y="0" width="4" height="860" fill="#2B2B2B"/>
+  <rect x="1290" y="0" width="4" height="860" fill="#2B2B2B"/>
+  <rect x="1570" y="0" width="4" height="860" fill="#2B2B2B"/>
+
+  <g filter="url(#blurBeam)">
+    <rect x="442" y="40" width="16" height="700" fill="url(#goldBeam)"/>
+    <rect x="722" y="40" width="16" height="700" fill="url(#goldBeam)"/>
+    <rect x="1002" y="40" width="16" height="700" fill="url(#goldBeam)"/>
+    <rect x="1282" y="40" width="16" height="700" fill="url(#goldBeam)"/>
+    <rect x="1562" y="40" width="16" height="700" fill="url(#goldBeam)"/>
+  </g>
+
+  <ellipse cx="960" cy="690" rx="880" ry="240" fill="url(#floorGlow)"/>
+  <rect x="0" y="600" width="1920" height="260" fill="url(#floorGlow)"/>
+
+  <rect x="0" y="0" width="1920" height="860" fill="url(#vignette)" opacity="0.4"/>
+  <defs>
+    <radialGradient id="vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 380) rotate(90) scale(600 1200)">
+      <stop stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+</svg>
