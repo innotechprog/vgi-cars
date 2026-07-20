@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/style.css?v=20260720b" />
+  <link rel="stylesheet" href="css/responsive.css?v=20260720b" />
 </head>
 <body>
   <header class="site-header" id="siteHeader">
@@ -49,7 +49,12 @@
     </section>
 
     <section class="search-panel container reveal" id="inventory">
-      <form id="inventorySearchForm" class="search-grid" autocomplete="off">
+      <button class="search-toggle-btn" id="searchPanelToggle" type="button" aria-expanded="false" aria-controls="inventorySearchForm">
+        <i class="fa-solid fa-bars"></i>
+        <span>Search & Filters</span>
+      </button>
+
+      <form id="inventorySearchForm" class="search-grid" autocomplete="off" hidden>
         <div class="search-title">
           <i class="fa-solid fa-magnifying-glass"></i>
           <span>Search Cars</span>
@@ -94,6 +99,15 @@
           </select>
         </label>
 
+        <label>
+          <span>Sort Price</span>
+          <select id="filterSort">
+            <option value="recent">Recently Added</option>
+            <option value="price_asc">Lowest to Highest</option>
+            <option value="price_desc">Highest to Lowest</option>
+          </select>
+        </label>
+
         <button class="btn btn-gold" type="submit">Search</button>
       </form>
     </section>
@@ -101,7 +115,7 @@
     <section class="section container">
       <div class="section-head reveal">
         <h2>Featured Cars</h2>
-        <a href="#inventory">View All Inventory <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#inventory">View All Cars <i class="fa-solid fa-arrow-right"></i></a>
       </div>
 
       <div class="vehicle-grid" id="featuredGrid"></div>
@@ -175,7 +189,12 @@
     <p class="copyright">&copy; <span id="yearNow"></span> VGi Cars. All Rights Reserved.</p>
   </footer>
 
-  <script src="js/main.js" defer></script>
+  <a class="whatsapp-float" href="https://wa.me/27762538318?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle." target="_blank" rel="noopener noreferrer" aria-label="Chat to us on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span>Chat to us</span>
+  </a>
+
+  <script src="js/main.js?v=20260720d" defer></script>
   <script src="js/slider.js" defer></script>
 </body>
 </html>

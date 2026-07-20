@@ -1,231 +1,23 @@
-const vehicles = [
-  {
-    id: 1,
-    name: "1967 Ford Mustang GT",
-    make: "Ford",
-    model: "Mustang GT",
-    year: 1967,
-    mileage: 45000,
-    transmission: "Manual",
-    fuel: "Petrol",
-    engine: "V8 4.7L",
-    location: "Johannesburg",
-    price: 895000,
-    image: "https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1484136063621-1f5880e3ff13?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "A legendary fastback restored with period-correct detailing, upgraded reliability components and authentic V8 character.",
-    features: ["Matching numbers block", "Power steering", "Disc brake conversion", "Premium leather interior", "Bluetooth retro head unit"],
-    specs: {
-      Make: "Ford",
-      Model: "Mustang GT",
-      Year: "1967",
-      Mileage: "45,000 km",
-      VIN: "8R02S105421",
-      Fuel: "Petrol",
-      Transmission: "Manual",
-      Drive: "RWD",
-      Seats: "4",
-      Doors: "2",
-      Exterior: "Jet Black",
-      Interior: "Tan Leather",
-      Service: "Full"
-    }
-  },
-  {
-    id: 2,
-    name: "1965 Jaguar E-Type",
-    make: "Jaguar",
-    model: "E-Type",
-    year: 1965,
-    mileage: 38000,
-    transmission: "Manual",
-    fuel: "Petrol",
-    engine: "I6 4.2L",
-    location: "Cape Town",
-    price: 1250000,
-    image: "https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1532581140115-3e355d1ed1de?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "One of the most beautiful cars ever built, this E-Type combines sculpted bodywork with smooth inline-six touring performance.",
-    features: ["Factory wire wheels", "Independent rear suspension", "Polished wood wheel", "Stainless exhaust", "Collector-grade restoration"],
-    specs: {
-      Make: "Jaguar",
-      Model: "E-Type",
-      Year: "1965",
-      Mileage: "38,000 km",
-      VIN: "1E10372",
-      Fuel: "Petrol",
-      Transmission: "Manual",
-      Drive: "RWD",
-      Seats: "2",
-      Doors: "2",
-      Exterior: "Silver Mist",
-      Interior: "Black Hide",
-      Service: "Full"
-    }
-  },
-  {
-    id: 3,
-    name: "1973 Porsche 911T",
-    make: "Porsche",
-    model: "911T",
-    year: 1973,
-    mileage: 60000,
-    transmission: "Manual",
-    fuel: "Petrol",
-    engine: "Flat-6 2.4L",
-    location: "Durban",
-    price: 1100000,
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1556800572-1b8aeef2c54f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "A pure air-cooled icon known for lightweight balance, tactile steering and unmistakable flat-six soundtrack.",
-    features: ["Fuchs wheels", "Sport exhaust", "Restored interior", "H4 headlights", "Classic gauges"],
-    specs: {
-      Make: "Porsche",
-      Model: "911T",
-      Year: "1973",
-      Mileage: "60,000 km",
-      VIN: "9113101473",
-      Fuel: "Petrol",
-      Transmission: "Manual",
-      Drive: "RWD",
-      Seats: "4",
-      Doors: "2",
-      Exterior: "Graphite Black",
-      Interior: "Cognac",
-      Service: "Partial"
-    }
-  },
-  {
-    id: 4,
-    name: "1957 Chevrolet Bel Air",
-    make: "Chevrolet",
-    model: "Bel Air",
-    year: 1957,
-    mileage: 70000,
-    transmission: "Automatic",
-    fuel: "Petrol",
-    engine: "V8 4.6L",
-    location: "Pretoria",
-    price: 950000,
-    image: "https://images.unsplash.com/photo-1597007066704-67bf2068d5b2?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1597007066704-67bf2068d5b2?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1567808291548-fc3ee04dbcf0?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1611566026373-c6c8da0ea861?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "A chrome-rich American classic with signature fins, smooth V8 power and polished show presence.",
-    features: ["Factory trim restored", "Whitewall tires", "Automatic transmission", "Dual exhaust", "Power brakes"],
-    specs: {
-      Make: "Chevrolet",
-      Model: "Bel Air",
-      Year: "1957",
-      Mileage: "70,000 km",
-      VIN: "VC57A234981",
-      Fuel: "Petrol",
-      Transmission: "Automatic",
-      Drive: "RWD",
-      Seats: "5",
-      Doors: "2",
-      Exterior: "Onyx Black",
-      Interior: "Cream",
-      Service: "Full"
-    }
-  },
-  {
-    id: 5,
-    name: "1969 Mercedes-Benz 280SL",
-    make: "Mercedes-Benz",
-    model: "280SL",
-    year: 1969,
-    mileage: 42000,
-    transmission: "Automatic",
-    fuel: "Petrol",
-    engine: "I6 2.8L",
-    location: "Johannesburg",
-    price: 1350000,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "Elegant and sophisticated, this 280SL balances grand touring comfort with unmistakable Mercedes design pedigree.",
-    features: ["Hardtop included", "Power steering", "Original Becker radio", "Refinished wood trim", "Service records"],
-    specs: {
-      Make: "Mercedes-Benz",
-      Model: "280SL",
-      Year: "1969",
-      Mileage: "42,000 km",
-      VIN: "11304412022752",
-      Fuel: "Petrol",
-      Transmission: "Automatic",
-      Drive: "RWD",
-      Seats: "2",
-      Doors: "2",
-      Exterior: "Charcoal",
-      Interior: "Tan",
-      Service: "Full"
-    }
-  },
-  {
-    id: 6,
-    name: "1970 Alfa Romeo GTV",
-    make: "Alfa Romeo",
-    model: "GTV",
-    year: 1970,
-    mileage: 52000,
-    transmission: "Manual",
-    fuel: "Petrol",
-    engine: "I4 2.0L",
-    location: "Cape Town",
-    price: 780000,
-    image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1400&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1566024164372-0281f1133a5f?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1532581140115-3e355d1ed1de?auto=format&fit=crop&w=1400&q=80"
-    ],
-    description: "Italian coupe charisma meets agile handling in a classic GTV restored for spirited weekend drives.",
-    features: ["Twin-cam engine", "5-speed manual", "Updated suspension bushings", "Period-correct alloys", "Detailed engine bay"],
-    specs: {
-      Make: "Alfa Romeo",
-      Model: "GTV",
-      Year: "1970",
-      Mileage: "52,000 km",
-      VIN: "AR2418675",
-      Fuel: "Petrol",
-      Transmission: "Manual",
-      Drive: "RWD",
-      Seats: "4",
-      Doors: "2",
-      Exterior: "Rosso Corsa",
-      Interior: "Black",
-      Service: "Partial"
-    }
-  }
-];
+const currency = new Intl.NumberFormat("en-ZA");
+let vehicles = [];
+let homeSource = [];
+let filteredVehicles = [];
+let visibleCount = 0;
+let infiniteScrollBound = false;
+let searchPanelCompactBound = false;
+
+const INITIAL_VISIBLE = 20;
+const LOAD_STEP = 20;
 
 window.VGI_DATA = { vehicles };
 
-const currency = new Intl.NumberFormat("en-ZA");
+async function fetchJson(url) {
+  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+  return response.json();
+}
 
 function formatPrice(value) {
   return `R ${currency.format(value)}`;
@@ -235,19 +27,34 @@ function formatMileage(value) {
   return `${currency.format(value)} km`;
 }
 
+function updateWhatsAppLink(vehicle = null) {
+  const link = document.querySelector('.whatsapp-float');
+  if (!link) {
+    return;
+  }
+
+  const baseNumber = '27762538318';
+  const message = vehicle
+    ? `Hello VGi Cars, I would like to chat about ${vehicle.name}. ${window.location.href}`
+    : 'Hello VGi Cars, I would like to chat about a vehicle.';
+
+  link.href = `https://wa.me/${baseNumber}?text=${encodeURIComponent(message)}`;
+}
+
 function vehicleCardTemplate(vehicle) {
+  const image = vehicle.image || "images/hero-bg.png";
   return `
     <article class="vehicle-card reveal">
       <div class="vehicle-image">
-        <img src="${vehicle.image}" alt="${vehicle.name}" loading="lazy" />
+        <img src="${image}" alt="${vehicle.name}" loading="lazy" />
         <button class="fav-btn" aria-label="Save ${vehicle.name}"><i class="fa-regular fa-heart"></i></button>
       </div>
       <div class="vehicle-content">
         <h3>${vehicle.name}</h3>
-        <p class="meta">${vehicle.engine} • ${vehicle.transmission} • ${formatMileage(vehicle.mileage)}</p>
+        <p class="meta">${vehicle.engine || "Engine"} � ${vehicle.transmission || "Auto"} � ${formatMileage(vehicle.mileage || 0)}</p>
         <div class="price-row">
-          <span class="price-tag">${formatPrice(vehicle.price)}</span>
-          <a class="btn btn-outline" href="vehicle.html?id=${vehicle.id}">View Details</a>
+          <span class="price-tag">${formatPrice(vehicle.price || 0)}</span>
+          <a class="btn btn-outline" href="vehicle?id=${vehicle.id}">View Details</a>
         </div>
       </div>
     </article>
@@ -330,9 +137,14 @@ function populateFilters(list) {
     return;
   }
 
-  const makes = [...new Set(list.map((item) => item.make))].sort();
-  const models = [...new Set(list.map((item) => item.model))].sort();
-  const years = [...new Set(list.map((item) => item.year))].sort((a, b) => a - b);
+  makeSelect.innerHTML = '<option value="">All Makes</option>';
+  modelSelect.innerHTML = '<option value="">All Models</option>';
+  yearMin.innerHTML = '<option value="">Min Year</option>';
+  yearMax.innerHTML = '<option value="">Max Year</option>';
+
+  const makes = [...new Set(list.map((item) => item.make).filter(Boolean))].sort();
+  const models = [...new Set(list.map((item) => item.model).filter(Boolean))].sort();
+  const years = [...new Set(list.map((item) => Number(item.year)).filter(Boolean))].sort((a, b) => a - b);
 
   makes.forEach((make) => {
     makeSelect.insertAdjacentHTML("beforeend", `<option value="${make}">${make}</option>`);
@@ -364,35 +176,141 @@ function renderFeatured(list) {
   setRevealObserver();
 }
 
+function sortVehicles(list, sortMode) {
+  const sorted = list.slice();
+
+  if (sortMode === "price_asc") {
+    sorted.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
+    return sorted;
+  }
+
+  if (sortMode === "price_desc") {
+    sorted.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+    return sorted;
+  }
+
+  sorted.sort((a, b) => Number(b.id || 0) - Number(a.id || 0));
+  return sorted;
+}
+
+function renderHomeResults() {
+  const maxVisible = Math.min(visibleCount, filteredVehicles.length);
+  renderFeatured(filteredVehicles.slice(0, maxVisible));
+}
+
+function maybeLoadMoreOnScroll() {
+  if (!filteredVehicles.length || visibleCount >= filteredVehicles.length) {
+    return;
+  }
+
+  const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 240;
+  if (!nearBottom) {
+    return;
+  }
+
+  visibleCount = Math.min(visibleCount + LOAD_STEP, filteredVehicles.length);
+  renderHomeResults();
+}
+
+function initSearchPanelToggle() {
+  const panel = document.getElementById("inventory");
+  const toggle = document.getElementById("searchPanelToggle");
+  const form = document.getElementById("inventorySearchForm");
+
+  if (!panel || !toggle || !form) {
+    return;
+  }
+
+  const syncCompactState = () => {
+    const panelTop = panel.getBoundingClientRect().top;
+    const stickyTop = parseFloat(getComputedStyle(panel).top || "0") || 0;
+    const shouldCompact = panelTop <= stickyTop + 1;
+
+    panel.classList.toggle("is-compact", shouldCompact);
+
+    if (!shouldCompact) {
+      panel.classList.remove("is-open");
+      form.hidden = false;
+      toggle.setAttribute("aria-expanded", "false");
+      return;
+    }
+
+    if (!panel.classList.contains("is-open")) {
+      form.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  };
+
+  toggle.addEventListener("click", () => {
+    if (!panel.classList.contains("is-compact")) {
+      return;
+    }
+
+    const isOpen = panel.classList.contains("is-open");
+    panel.classList.toggle("is-open", !isOpen);
+    form.hidden = isOpen;
+    toggle.setAttribute("aria-expanded", isOpen ? "false" : "true");
+  });
+
+  syncCompactState();
+
+  if (!searchPanelCompactBound) {
+    window.addEventListener("scroll", syncCompactState, { passive: true });
+    window.addEventListener("resize", syncCompactState);
+    searchPanelCompactBound = true;
+  }
+}
+
 function initHomePage() {
   const form = document.getElementById("inventorySearchForm");
   if (!form) {
     return;
   }
 
-  const source = vehicles.slice();
-  populateFilters(source);
-  renderFeatured(source.slice(0, 4));
+  initSearchPanelToggle();
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+  homeSource = vehicles.slice();
+  populateFilters(homeSource);
 
+  const applyFilters = () => {
     const make = document.getElementById("filterMake").value;
     const model = document.getElementById("filterModel").value;
     const yearFrom = Number(document.getElementById("filterYearMin").value || 0);
     const yearTo = Number(document.getElementById("filterYearMax").value || 9999);
     const price = Number(document.getElementById("filterPrice").value || Number.MAX_SAFE_INTEGER);
+    const sortMode = document.getElementById("filterSort")?.value || "recent";
 
-    const filtered = source.filter((item) => {
+    const filtered = homeSource.filter((item) => {
       if (make && item.make !== make) return false;
       if (model && item.model !== model) return false;
-      if (item.year < yearFrom || item.year > yearTo) return false;
-      if (item.price > price) return false;
+      if (Number(item.year) < yearFrom || Number(item.year) > yearTo) return false;
+      if (Number(item.price) > price) return false;
       return true;
     });
 
-    renderFeatured(filtered.slice(0, 4));
+    filteredVehicles = sortVehicles(filtered, sortMode);
+    visibleCount = Math.min(INITIAL_VISIBLE, filteredVehicles.length);
+    renderHomeResults();
+  };
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    applyFilters();
   });
+
+  ["filterMake", "filterModel", "filterYearMin", "filterYearMax", "filterPrice", "filterSort"].forEach((id) => {
+    const field = document.getElementById(id);
+    if (field) {
+      field.addEventListener("change", applyFilters);
+    }
+  });
+
+  if (!infiniteScrollBound) {
+    window.addEventListener("scroll", maybeLoadMoreOnScroll, { passive: true });
+    infiniteScrollBound = true;
+  }
+
+  applyFilters();
 }
 
 function setTabs() {
@@ -414,7 +332,7 @@ function setTabs() {
   });
 }
 
-function initVehiclePage() {
+async function initVehiclePage() {
   const title = document.getElementById("vehicleTitle");
   if (!title) {
     return;
@@ -422,43 +340,75 @@ function initVehiclePage() {
 
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
-  const selectedVehicle = vehicles.find((item) => item.id === id) || vehicles[0];
+  if (!id) {
+    return;
+  }
+
+  const detailResult = await fetchJson(`api/car?id=${id}`);
+  if (!detailResult.success || !detailResult.data) {
+    return;
+  }
+
+  const selectedVehicle = detailResult.data;
   window.VGI_DATA.selectedVehicle = selectedVehicle;
+  updateWhatsAppLink(selectedVehicle);
 
   document.getElementById("vehicleTitle").textContent = selectedVehicle.name;
   document.getElementById("crumbVehicle").textContent = selectedVehicle.name;
   document.getElementById("vehiclePrice").textContent = formatPrice(selectedVehicle.price);
-  document.getElementById("vehicleDescription").textContent = selectedVehicle.description;
-  document.getElementById("financePrice").value = selectedVehicle.price;
+  document.getElementById("vehicleDescription").textContent = selectedVehicle.description || "";
+  document.getElementById("financePrice").value = selectedVehicle.price || 0;
 
   const chips = [
-    `${selectedVehicle.year}`,
-    selectedVehicle.transmission,
-    selectedVehicle.fuel,
-    selectedVehicle.engine,
-    selectedVehicle.location
-  ];
+    `${selectedVehicle.year || ""}`,
+    selectedVehicle.transmission || "",
+    selectedVehicle.fuel || "",
+    selectedVehicle.engine || "",
+    selectedVehicle.location || ""
+  ].filter(Boolean);
 
   document.getElementById("specChips").innerHTML = chips.map((item) => `<li>${item}</li>`).join("");
 
-  const specsHtml = Object.entries(selectedVehicle.specs)
+  const specsHtml = Object.entries(selectedVehicle.specs || {})
     .map(([key, value]) => `<div class="spec-row"><span>${key}</span><strong>${value}</strong></div>`)
     .join("");
 
   document.getElementById("specTable").innerHTML = specsHtml;
-  document.getElementById("featuresList").innerHTML = selectedVehicle.features.map((item) => `<li>${item}</li>`).join("");
+  document.getElementById("featuresList").innerHTML = (selectedVehicle.features || []).map((item) => `<li>${item}</li>`).join("");
 
   const related = vehicles.filter((vehicle) => vehicle.id !== selectedVehicle.id).slice(0, 4);
   const relatedNode = document.getElementById("relatedVehicles");
-  relatedNode.innerHTML = related.map(vehicleCardTemplate).join("");
+  if (relatedNode) {
+    relatedNode.innerHTML = related.map(vehicleCardTemplate).join("");
+    setRevealObserver();
+  }
 
   document.dispatchEvent(new CustomEvent("vehicleDataReady", { detail: selectedVehicle }));
 }
 
-setYear();
-setHeaderBehavior();
-initHeroScrollReveal();
-setRevealObserver();
-initHomePage();
-initVehiclePage();
-setTabs();
+async function loadVehicles() {
+  const result = await fetchJson("api/cars");
+  if (result.success && Array.isArray(result.data)) {
+    vehicles = result.data;
+    window.VGI_DATA.vehicles = vehicles;
+  }
+}
+
+async function boot() {
+  setYear();
+  setHeaderBehavior();
+  initHeroScrollReveal();
+  setRevealObserver();
+  setTabs();
+  updateWhatsAppLink();
+
+  try {
+    await loadVehicles();
+    initHomePage();
+    await initVehiclePage();
+  } catch (error) {
+    console.error("Failed to load vehicles", error);
+  }
+}
+
+boot();

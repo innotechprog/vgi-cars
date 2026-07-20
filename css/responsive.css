@@ -17,6 +17,10 @@
 }
 
 @media (max-width: 860px) {
+  .search-panel {
+    top: 76px;
+  }
+
   .hero {
     background-size: contain;
     background-position: center top;
@@ -66,6 +70,10 @@
 }
 
 @media (max-width: 620px) {
+  .search-panel {
+    top: 72px;
+  }
+
   .vehicle-grid,
   .perks-grid,
   .footer-grid,
@@ -101,5 +109,15 @@
 
   .breadcrumb {
     font-size: 0.8rem;
+  }
+  
+  .whatsapp-float {
+    right: 14px;
+    bottom: 14px;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .whatsapp-float span {
+    display: none;
   }
 }

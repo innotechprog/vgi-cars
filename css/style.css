@@ -173,6 +173,32 @@ img {
   border-color: var(--gold-light);
 }
 
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 140;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  box-shadow: 0 14px 32px rgba(18, 140, 126, 0.38);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.whatsapp-float i {
+  font-size: 1.45rem;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(18, 140, 126, 0.46);
+}
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -241,10 +267,51 @@ img {
 
 .search-panel {
   margin-top: -1.2rem;
+  position: sticky;
+  top: 86px;
+  z-index: 90;
   background: rgba(21, 21, 21, 0.95);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  padding: 0.7rem;
+}
+
+.search-toggle-btn {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(199, 154, 75, 0.12);
+  color: var(--gold-light);
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font: inherit;
+  font-size: 0.84rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  display: none;
+}
+
+.search-toggle-btn:hover {
+  background: rgba(199, 154, 75, 0.2);
+}
+
+.search-panel.is-compact .search-toggle-btn {
+  display: flex;
+}
+
+.search-panel.is-compact .search-grid {
+  display: none;
+}
+
+.search-panel.is-compact.is-open .search-grid {
+  display: grid;
+  margin-top: 0.7rem;
 }
 
 .search-grid {
@@ -252,7 +319,7 @@ img {
   grid-template-columns: 1.2fr repeat(5, 1fr) auto;
   gap: 0.85rem;
   align-items: end;
-  padding: 1rem;
+  padding: 0.3rem;
 }
 
 .search-title {
