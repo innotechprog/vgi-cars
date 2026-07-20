@@ -1,39 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VGi Cars | Vintage Collection</title>
-  <meta name="description" content="VGi Cars premium vintage car showroom and dealership." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css?v=20260720b" />
-  <link rel="stylesheet" href="css/responsive.css?v=20260720b" />
-</head>
-<body>
-  <header class="site-header" id="siteHeader">
-    <nav class="container nav-wrap">
-      <a class="logo" href="index" aria-label="VGi Cars home">
-        <span class="logo-main">VGi</span>
-        <span class="logo-sub">CARS</span>
-      </a>
-
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
-      <ul class="nav-links" id="navLinks">
-        <li><a class="active" href="index">Home</a></li>
-        <li><a href="#inventory">Inventory</a></li>
-        <li><a href="#services">About Us</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-
-      <a class="btn btn-outline nav-cta" href="#inventory">Buy Car</a>
-    </nav>
-  </header>
+<?php
+$pageTitle = 'VGi Cars | Vintage Collection';
+$pageDescription = 'VGi Cars premium vintage car showroom and dealership.';
+$activePage = 'home';
+$contactHref = 'contact';
+$buyCarHref = '#inventory';
+require __DIR__ . '/header.php';
+?>
 
   <main>
     <section class="hero">
@@ -115,7 +87,6 @@
     <section class="section container">
       <div class="section-head reveal">
         <h2>Featured Cars</h2>
-        <a href="#inventory">View All Cars <i class="fa-solid fa-arrow-right"></i></a>
       </div>
 
       <div class="vehicle-grid" id="featuredGrid"></div>
@@ -148,53 +119,13 @@
 
   </main>
 
-  <footer class="site-footer" id="contact">
-    <div class="container footer-grid">
-      <div>
-        <a class="logo" href="index">
-          <span class="logo-main">VGi</span>
-          <span class="logo-sub">CARS</span>
-        </a>
-        <p>
-          At VGi Cars, we specialize in buying, selling and restoring vintage cars.
-          We deliver automotive history with confidence.
-        </p>
-      </div>
-      <div>
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index">Home</a></li>
-          <li><a href="#inventory">Inventory</a></li>
-          <li><a href="#services">About Us</a></li>
-          <li><a href="#services">Services</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Inventory</h4>
-        <ul>
-          <li><a href="#inventory">All Cars</a></li>
-          <li><a href="#inventory">Vintage Cars</a></li>
-          <li><a href="#inventory">New Arrivals</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contact Us</h4>
-        <ul>
-          <li><i class="fa-solid fa-phone"></i> +27 76 253 8318</li>
-          <li><i class="fa-solid fa-envelope"></i> info@vgicars.co.za</li>
-          <li><i class="fa-solid fa-location-dot"></i> Johannesburg, South Africa</li>
-        </ul>
-      </div>
-    </div>
-    <p class="copyright">&copy; <span id="yearNow"></span> VGi Cars. All Rights Reserved.</p>
-  </footer>
-
-  <a class="whatsapp-float" href="https://wa.me/27762538318?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle." target="_blank" rel="noopener noreferrer" aria-label="Chat to us on WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-    <span>Chat to us</span>
-  </a>
-
-  <script src="js/main.js?v=20260720d" defer></script>
-  <script src="js/slider.js" defer></script>
-</body>
-</html>
+<?php
+$footerIntro = 'At VGi Cars, we specialize in buying, selling and restoring vintage cars. We deliver automotive history with confidence.';
+$footerWhyItems = [
+    'Curated selections',
+    'Trusted guidance',
+    'Collector mindset',
+];
+$footerScripts = ['js/main.js?v=20260720d', 'js/slider.js'];
+require __DIR__ . '/footer.php';
+?>

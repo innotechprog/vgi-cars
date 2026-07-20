@@ -15,6 +15,7 @@ if ($page > $totalPages) {
 }
 
 $cars = $carService->listPaginated($page, $perPage, $filters);
+$message = trim($_GET['msg'] ?? '');
 ?>
 <div class="pagetitle">
   <h1>Cars</h1>
@@ -31,6 +32,12 @@ $cars = $carService->listPaginated($page, $perPage, $filters);
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
+          <?php if ($message !== ''): ?>
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+              <?= h($message) ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
           <a href="add-car" class="btn btn-secondary mt-4">Add a Car</a>
           <form method="get" class="row g-2 my-3">
             <div class="col-md-5">

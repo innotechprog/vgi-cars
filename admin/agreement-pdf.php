@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../includes/bootstrap.php';
-require_once __DIR__ . '/../includes/sales_documents.php';
+require_once __DIR__ . '/includes/sales_documents.php';
 
 $auth->requireLogin('login.php');
 $auth->requireRole('admin', 'login.php');
@@ -23,9 +23,7 @@ $html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-famil
 
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->setPrintHeader(false);
-$pdf->setPrintFooter(true);
-$pdf->setFooterMargin(8);
-$pdf->setFooterFont(['helvetica', '', 10]);
+$pdf->setPrintFooter(false);
 $pdf->SetMargins(12, 12, 12);
 $pdf->SetAutoPageBreak(true, 12);
 $pdf->AddPage();

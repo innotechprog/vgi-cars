@@ -10,5 +10,10 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 <script src="assets/js/main.js"></script>
+<?php if (!empty($pageScripts) && is_array($pageScripts)): ?>
+<?php foreach ($pageScripts as $script): ?>
+<script src="<?= h($script) ?>"></script>
+<?php endforeach; ?>
+<?php endif; ?>
 </body>
 </html>

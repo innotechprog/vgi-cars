@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/bootstrap.php';
-require_once __DIR__ . '/../includes/sales_documents.php';
+require_once __DIR__ . '/includes/sales_documents.php';
 $pageTitle = 'Sales Agreement';
 require __DIR__ . '/_header.php';
 
@@ -22,6 +22,21 @@ $company = sales_company_details($settingsService);
   line-height: 1.5;
 }
 
+.agreement-document {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.agreement-watermark {
+  z-index: 0 !important;
+}
+
+.agreement-content {
+  position: relative;
+  z-index: 2 !important;
+}
+
 @media print {
   #header,
   #sidebar,
@@ -30,6 +45,16 @@ $company = sales_company_details($settingsService);
   .pagetitle,
   .d-print-none {
     display: none !important;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   body,
@@ -44,10 +69,20 @@ $company = sales_company_details($settingsService);
     background: #fff !important;
     box-shadow: none !important;
     border: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .main {
     margin-left: 0 !important;
+  }
+
+  .section,
+  .row,
+  .col-lg-10,
+  .card,
+  .card-body {
+    display: block !important;
   }
 
   .table,
@@ -67,12 +102,29 @@ $company = sales_company_details($settingsService);
   }
 
   @page {
-    margin: 12mm;
+    margin: 8mm;
   }
 
   .document-wrap {
     font-size: 12px !important;
     line-height: 1.5 !important;
+  }
+
+  .agreement-document {
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+  }
+
+  .agreement-watermark {
+    position: absolute !important;
+    z-index: 0 !important;
+    opacity: 0.06 !important;
+  }
+
+  .agreement-content {
+    position: relative !important;
+    z-index: 2 !important;
   }
 }
 </style>
@@ -92,7 +144,6 @@ $company = sales_company_details($settingsService);
       <div class="card">
         <div class="card-body p-4">
           <div class="d-print-none text-end mb-3">
-            <a href="agreement-pdf.php?sale_id=<?= (int) $saleId ?>" class="btn btn-outline-dark">Download PDF</a>
             <button type="button" class="btn btn-primary" onclick="window.print()">Print Agreement</button>
           </div>
           <?= render_agreement_content($sale, $items, $company) ?>

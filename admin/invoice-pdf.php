@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../includes/bootstrap.php';
-require_once __DIR__ . '/../includes/sales_documents.php';
+require_once __DIR__ . '/includes/sales_documents.php';
 
 $auth->requireLogin('login.php');
 $auth->requireRole('admin', 'login.php');
@@ -17,8 +17,15 @@ if (!$sale) {
 }
 
 $company = sales_company_details($settingsService);
-$html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:helvetica,sans-serif;font-size:12px;color:#111;}h2,h3{text-align:center;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #999;padding:6px;} .text-right{text-align:right;} .mb{margin-bottom:20px;} .no-border td{border:none;padding:2px 0;} .totals{width:45%;margin-left:auto;} </style></head><body>'
-    . render_invoice_content($sale, $items, $company, true)
+$renderInvoicePdf = function (array $sale, array $items, array $company): string {
+    if (function_exists('render_invoice_pdf_content')) {
+        return render_invoice_pdf_content($sale, $items, $company);
+    }
+
+    return render_invoice_content($sale, $items, $company, true);
+};
+$html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:helvetica,sans-serif;font-size:12px;color:#111;margin:0;padding:0;}</style></head><body>'
+    . $renderInvoicePdf($sale, $items, $company)
     . '</body></html>';
 
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);

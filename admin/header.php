@@ -2,7 +2,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="user-profile" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
+        <img src="../images/vgilogo.png" alt="VGi Cars">
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>

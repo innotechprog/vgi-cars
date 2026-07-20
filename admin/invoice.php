@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/bootstrap.php';
-require_once __DIR__ . '/../includes/sales_documents.php';
+require_once __DIR__ . '/includes/sales_documents.php';
 $pageTitle = 'Invoice';
 require __DIR__ . '/_header.php';
 
@@ -27,6 +27,16 @@ $company = sales_company_details($settingsService);
     display: none !important;
   }
 
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   body,
   .main,
   .section,
@@ -39,10 +49,20 @@ $company = sales_company_details($settingsService);
     background: #fff !important;
     box-shadow: none !important;
     border: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .main {
     margin-left: 0 !important;
+  }
+
+  .section,
+  .row,
+  .col-lg-10,
+  .card,
+  .card-body {
+    display: block !important;
   }
 
   .table,
@@ -62,7 +82,7 @@ $company = sales_company_details($settingsService);
   }
 
   @page {
-    margin: 12mm;
+    margin: 8mm;
   }
 }
 </style>
@@ -83,7 +103,6 @@ $company = sales_company_details($settingsService);
         <div class="card-body p-4">
           <div class="d-print-none d-flex justify-content-end gap-2 mb-3">
             <a href="agreement.php?sale_id=<?= (int) $saleId ?>" class="btn btn-outline-secondary">View Agreement</a>
-            <a href="invoice-pdf.php?sale_id=<?= (int) $saleId ?>" class="btn btn-outline-dark">Download PDF</a>
             <button type="button" class="btn btn-primary" onclick="window.print()">Print Invoice</button>
           </div>
           <?= render_invoice_content($sale, $items, $company) ?>

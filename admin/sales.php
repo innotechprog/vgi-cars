@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/bootstrap.php';
-require_once __DIR__ . '/../includes/sales_documents.php';
+require_once __DIR__ . '/includes/sales_documents.php';
 $pageTitle = 'S&B Auto Group | Sales';
 require __DIR__ . '/_header.php';
 
@@ -68,8 +68,6 @@ $msg = $_GET['msg'] ?? '';
                   <td>
                     <a href="invoice.php?sale_id=<?= (int) $sale['sale_id'] ?>" class="btn btn-sm btn-outline-primary">Invoice</a>
                     <a href="agreement.php?sale_id=<?= (int) $sale['sale_id'] ?>" class="btn btn-sm btn-outline-secondary">Agreement</a>
-                    <a href="invoice-pdf.php?sale_id=<?= (int) $sale['sale_id'] ?>" class="btn btn-sm btn-outline-dark">Invoice PDF</a>
-                    <a href="agreement-pdf.php?sale_id=<?= (int) $sale['sale_id'] ?>" class="btn btn-sm btn-outline-dark">Agreement PDF</a>
                   </td>
                 </tr>
               <?php endforeach; ?>

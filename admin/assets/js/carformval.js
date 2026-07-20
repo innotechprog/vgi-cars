@@ -430,6 +430,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const makeSelect = document.getElementById('make');
     const modelSelect = document.getElementById('model');
     const variantSelect = document.getElementById('variant');
+    const existingCar = window.existingCar || {};
+
+    if (makeSelect && makeSelect.options.length <= 1) {
+        Object.keys(carData).forEach(make => {
+            const option = document.createElement('option');
+            option.value = make;
+            option.textContent = make;
+            makeSelect.appendChild(option);
+        });
+
+        const otherOption = document.createElement('option');
+        otherOption.value = 'Other';
+        otherOption.textContent = 'Other';
+        makeSelect.appendChild(otherOption);
+    }
     const customMakeContainer = document.getElementById('custom-make-container');
     const customModelContainer = document.getElementById('custom-model-container');
     const customVariantContainer = document.getElementById('custom-variant-container');
@@ -557,6 +572,70 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('custom_variant_input').value = '';
         }
     });
+
+    if (existingCar && Object.keys(existingCar).length > 0) {
+        const setValue = (name, value) => {
+            const field = document.querySelector(`[name="${name}"]`);
+            if (!field || value === undefined || value === null) {
+                return;
+            }
+
+            if (field.type === 'radio') {
+                const radio = document.querySelector(`[name="${name}"][value="${value}"]`);
+                if (radio) {
+                    radio.checked = true;
+                }
+                return;
+            }
+
+            field.value = value;
+        };
+
+        setValue('year', existingCar.year || '');
+        setValue('mm_code', existingCar.mm_code || '');
+        setValue('vin', existingCar.vin || '');
+        setValue('mileage', existingCar.mileage || '');
+        setValue('price', existingCar.price || '');
+        setValue('color', existingCar.color || '');
+        setValue('transmission', existingCar.transmission || '');
+        setValue('fuel_type', existingCar.fuel_type || '');
+        setValue('description', existingCar.description || '');
+        setValue('condition_type', existingCar.condition_type || 'Used');
+        setValue('visibility', existingCar.visibility || 'Yes');
+        setValue('custom_variant', existingCar.custom_variant || '');
+        setValue('status', existingCar.status || 'Available');
+
+        if (existingCar.make) {
+            makeSelect.value = existingCar.make;
+            makeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        setTimeout(() => {
+            if (existingCar.make === 'Other') {
+                setValue('custom_make', existingCar.custom_make || '');
+            }
+
+            if (existingCar.model) {
+                modelSelect.value = existingCar.model;
+                modelSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            setTimeout(() => {
+                if (existingCar.model === 'Other') {
+                    setValue('custom_model', existingCar.custom_model || '');
+                }
+
+                if (existingCar.variant) {
+                    variantSelect.value = existingCar.variant;
+                    variantSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                if (existingCar.variant === 'Other') {
+                    setValue('custom_variant_input', existingCar.custom_variant_input || '');
+                }
+            }, 0);
+        }, 0);
+    }
 });
 
 // Open custom image picker modal
@@ -677,6 +756,10 @@ function showPickerModal(files) {
         console.error('❌ Error showing picker modal:', error);
         addFilesDirectly(files);
     }
+}
+
+if (typeof window !== 'undefined') {
+    window.carData = carData;
 }
 
 // Render the grid of all images in picker (with progressive loading)
@@ -1300,6 +1383,7 @@ function submitForm(compressedFiles) {
 
     // Remove any existing image files from form data
     formData.delete("images[]");
+    formData.set('expects_json', '1');
     
     // Ensure custom fields are properly handled
     const makeValue = document.querySelector('select[name="make"]').value;
@@ -1416,6 +1500,8 @@ function submitForm(compressedFiles) {
     });
 
     xhr.open('POST', form.action, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('Accept', 'application/json');
     xhr.send(formData);
 }
 
