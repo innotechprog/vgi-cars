@@ -61,22 +61,25 @@ function render_invoice_content(array $sale, array $items, array $company, bool 
     $headerSize = $forPdf ? '18px' : '24px';
     $metaSize = $forPdf ? '10px' : '12px';
     $totalSize = $forPdf ? '13px' : '15px';
-    $watermarkSize = $forPdf ? '48px' : '72px';
+    $watermarkSize = $forPdf ? '44px' : '72px';
+    $watermarkColor = $forPdf ? '#f0f0f0' : '#d8d8d8';
+    $watermarkWeight = $forPdf ? '200' : '300';
+    $watermarkOpacity = $forPdf ? '1' : '0.18';
     $wrapperStyle = $forPdf
-        ? "font-family: {$fontFamily}; font-size: {$fontSize}; width: 100%; color: #111; position: relative; overflow: hidden;"
-        : "font-family: {$fontFamily}; font-size: {$fontSize}; max-width: 900px; margin: 0 auto; padding: 20px; color: #111; position: relative; overflow: hidden;";
+        ? "font-family: {$fontFamily}; font-size: {$fontSize}; width: 100%; color: #111; position: relative; overflow: hidden; isolation: isolate;"
+        : "font-family: {$fontFamily}; font-size: {$fontSize}; max-width: 900px; margin: 0 auto; padding: 20px; color: #111; position: relative; overflow: hidden; isolation: isolate;";
     $cellPadding = $forPdf ? '4px 6px' : '8px 12px';
     $bodyRowPadding = $forPdf ? '6px 8px' : '10px 12px';
     
     ob_start();
     ?>
-    <div style="<?= $wrapperStyle ?>">
+    <div class="invoice-document" style="<?= $wrapperStyle ?>">
         <!-- Watermark -->
-        <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) rotate(-28deg); font-size: <?= $watermarkSize ?>; font-weight: 700; color: rgba(0, 0, 0, 0.06); white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1; text-transform: uppercase; letter-spacing: 0.08em; font-family: <?= $fontFamily ?>;">
+        <div class="invoice-watermark" style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) rotate(-28deg); font-size: <?= $watermarkSize ?>; font-weight: <?= $watermarkWeight ?>; color: <?= $watermarkColor ?>; -webkit-text-fill-color: <?= $watermarkColor ?>; white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1; text-transform: uppercase; letter-spacing: 0.08em; font-family: <?= $fontFamily ?>; opacity: <?= $watermarkOpacity ?>;">
             <?= h($watermarkText) ?>
         </div>
         
-        <div style="position: relative; z-index: 1;">
+        <div class="invoice-content" style="position: relative; z-index: 3;">
             <!-- Company Header -->
             <div style="text-align: center; border-bottom: 1px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
                 <?php if ($logoSrc !== ''): ?>
@@ -224,18 +227,21 @@ function render_agreement_content(array $sale, array $items, array $company, boo
     $fontFamily = 'Arial, Helvetica, sans-serif';
     $fontSize = $forPdf ? '11px' : '13px';
     $headerSize = $forPdf ? '18px' : '24px';
-    $watermarkSize = $forPdf ? '40px' : '64px';
+    $watermarkSize = $forPdf ? '38px' : '64px';
+    $watermarkColor = $forPdf ? '#f0f0f0' : '#d8d8d8';
+    $watermarkWeight = $forPdf ? '200' : '300';
+    $watermarkOpacity = $forPdf ? '1' : '0.18';
     $titleSize = $forPdf ? '16px' : '22px';
     
     ob_start();
     ?>
-    <div style="font-family: <?= $fontFamily ?>; font-size: <?= $fontSize ?>; max-width: 900px; margin: 0 auto; padding: 20px; position: relative; overflow: hidden; color: #111;">
+    <div class="agreement-document" style="font-family: <?= $fontFamily ?>; font-size: <?= $fontSize ?>; max-width: 900px; margin: 0 auto; padding: 20px; position: relative; overflow: hidden; color: #111; isolation: isolate;">
         <!-- Watermark -->
-        <div style="position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%) rotate(-28deg); font-size: <?= $watermarkSize ?>; font-weight: 700; color: rgba(0, 0, 0, 0.06); white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1; text-transform: uppercase; letter-spacing: 0.08em; font-family: <?= $fontFamily ?>;">
+        <div class="agreement-watermark" style="position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%) rotate(-28deg); font-size: <?= $watermarkSize ?>; font-weight: <?= $watermarkWeight ?>; color: <?= $watermarkColor ?>; -webkit-text-fill-color: <?= $watermarkColor ?>; white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1; text-transform: uppercase; letter-spacing: 0.08em; font-family: <?= $fontFamily ?>; opacity: <?= $watermarkOpacity ?>;">
             <?= h($watermarkText) ?>
         </div>
         
-        <div style="position: relative; z-index: 1;">
+        <div class="agreement-content" style="position: relative; z-index: 3;">
             <?php if ($logoSrc !== ''): ?>
                 <div style="text-align: center; margin-bottom: 20px;">
                     <img src="<?= h($logoSrc) ?>" alt="Company Logo" style="max-width: 200px; height: auto;">

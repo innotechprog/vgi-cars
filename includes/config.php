@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../admin/assets/classes/connect_db_class.php';
+
 /**
  * Read environment values from getenv/$_ENV/$_SERVER with fallback.
  */
@@ -17,14 +19,10 @@ function cfg_env(string $key, $default = null)
     return $value;
 }
 
+$dbConfig = \Database::resolveConfig();
+
 $config = [
-    'db' => [
-        'host' => (string) cfg_env('DB_HOST', '127.0.0.1'),
-        'name' => (string) cfg_env('DB_NAME', 'vgi'),
-        'user' => (string) cfg_env('DB_USER', 'root'),
-        'pass' => (string) cfg_env('DB_PASS', ''),
-        'charset' => (string) cfg_env('DB_CHARSET', 'utf8mb4'),
-    ],
+    'db' => $dbConfig,
     'app' => [
         'base_url' => (string) cfg_env('APP_BASE_URL', '/don joachim/vgi'),
         'uploads_dir' => __DIR__ . '/../uploads/cars',

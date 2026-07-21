@@ -1,6 +1,7 @@
 <?php
-$pageTitle = 'VGi Cars | Vintage Collection';
-$pageDescription = 'VGi Cars premium vintage car showroom and dealership.';
+$pageTitle = 'VGi Cars | Quality Cars For Sale';
+$pageDescription = 'Browse quality vehicles at VGi Cars, from modern and premium models to collector and classic cars.';
+$pageKeywords = 'cars for sale, buy cars, sell cars, used cars, premium cars, modern cars, classic cars, Johannesburg dealership';
 $activePage = 'home';
 $contactHref = 'contact';
 $buyCarHref = '#inventory';
@@ -120,7 +121,7 @@ require __DIR__ . '/header.php';
   </main>
 
 <?php
-$footerIntro = 'At VGi Cars, we specialize in buying, selling and restoring vintage cars. We deliver automotive history with confidence.';
+$footerIntro = 'At VGi Cars, we specialize in buying and selling quality vehicles across modern, premium, performance, and classic segments.';
 $footerWhyItems = [
     'Curated selections',
     'Trusted guidance',

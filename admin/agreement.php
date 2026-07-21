@@ -89,7 +89,6 @@ $company = sales_company_details($settingsService);
   .table th,
   .table td,
   p,
-  div,
   h1,
   h2,
   h3,
@@ -119,12 +118,17 @@ $company = sales_company_details($settingsService);
   .agreement-watermark {
     position: absolute !important;
     z-index: 0 !important;
-    opacity: 0.06 !important;
+    opacity: 1 !important;
+    color: #efefef !important;
+    -webkit-text-fill-color: #efefef !important;
+    font-weight: 200 !important;
+    text-shadow: none !important;
   }
 
   .agreement-content {
     position: relative !important;
-    z-index: 2 !important;
+    z-index: 3 !important;
+    background: transparent !important;
   }
 }
 </style>

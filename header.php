@@ -1,12 +1,19 @@
 <?php
-$pageTitle = $pageTitle ?? 'VGi Cars';
-$pageDescription = $pageDescription ?? 'VGi Cars premium vintage car showroom and dealership.';
+$pageTitle = $pageTitle ?? 'VGi Cars | Buy and Sell Cars in South Africa';
+$pageDescription = $pageDescription ?? 'VGi Cars is a trusted dealership for quality vehicles, including modern, premium, performance, and classic cars.';
+$pageKeywords = $pageKeywords ?? 'cars for sale, buy cars, sell cars, used cars, premium cars, classic cars, performance cars, VGi Cars, Johannesburg car dealership';
 $activePage = $activePage ?? '';
 $contactHref = $contactHref ?? 'contact';
 $buyCarHref = $buyCarHref ?? 'index#inventory';
 $assetVersion = '20260720c';
-$logoPath = 'images/vgilogo.png';
-$ogImage = $ogImage ?? $logoPath;
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$baseUrl = $scheme . '://' . $host;
+$canonicalUrl = $canonicalUrl ?? ($baseUrl . $requestUri);
+$logoPath = '/images/vgilogo.png';
+$ogImage = $ogImage ?? ($baseUrl . $logoPath);
+$ogType = $ogType ?? 'website';
 $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>
@@ -16,14 +23,23 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= $escape($pageTitle) ?></title>
   <meta name="description" content="<?= $escape($pageDescription) ?>" />
+  <meta name="keywords" content="<?= $escape($pageKeywords) ?>" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="<?= $escape($canonicalUrl) ?>" />
+  <meta property="og:site_name" content="VGi Cars" />
+  <meta property="og:locale" content="en_ZA" />
+  <meta property="og:url" content="<?= $escape($canonicalUrl) ?>" />
+  <meta property="og:type" content="<?= $escape($ogType) ?>" />
   <meta property="og:title" content="<?= $escape($pageTitle) ?>" />
   <meta property="og:description" content="<?= $escape($pageDescription) ?>" />
   <meta property="og:image" content="<?= $escape($ogImage) ?>" />
-  <meta property="og:type" content="website" />
+  <meta property="og:image:alt" content="VGi Cars Logo" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="<?= $escape($canonicalUrl) ?>" />
   <meta name="twitter:title" content="<?= $escape($pageTitle) ?>" />
   <meta name="twitter:description" content="<?= $escape($pageDescription) ?>" />
   <meta name="twitter:image" content="<?= $escape($ogImage) ?>" />
+  <meta name="twitter:image:alt" content="VGi Cars Logo" />
   <link rel="icon" type="image/png" href="<?= $escape($logoPath) ?>" />
   <link rel="apple-touch-icon" href="<?= $escape($logoPath) ?>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +53,7 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
   <header class="site-header" id="siteHeader">
     <nav class="container nav-wrap">
       <a class="logo" href="index" aria-label="VGi Cars home">
-        <img src="<?= $escape($logoPath) ?>" alt="VGi Cars" class="site-logo-image" />
+        <img src="<?= $escape(ltrim($logoPath, '/')) ?>" alt="VGi Cars" class="site-logo-image" />
         <span class="mobile-logo-text">Drive with pride</span>
       </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">

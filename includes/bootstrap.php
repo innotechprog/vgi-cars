@@ -8,7 +8,22 @@ require_once __DIR__ . '/services.php';
 require_once __DIR__ . '/alerts.php';
 
 try {
-	$db = (new \Database($config['db']))->pdo();
+	try {
+		$db = (new \Database($config['db']))->pdo();
+	} catch (Throwable $dbError) {
+		$legacyDb = [];
+		if (function_exists('cfg_parse_legacy_online_db')) {
+			$legacyDb = cfg_parse_legacy_online_db(__DIR__ . '/online setup.php');
+		}
+
+		if (!empty($legacyDb)) {
+			$config['db'] = array_replace($config['db'], $legacyDb);
+			$db = (new \Database($config['db']))->pdo();
+		} else {
+			throw $dbError;
+		}
+	}
+
 	$auth = new \Auth();
 	$userService = new \UserService($db);
 	$carService = new \CarService($db);

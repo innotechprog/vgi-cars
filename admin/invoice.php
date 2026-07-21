@@ -69,7 +69,6 @@ $company = sales_company_details($settingsService);
   .table th,
   .table td,
   p,
-  div,
   h1,
   h2,
   h3,
@@ -83,6 +82,28 @@ $company = sales_company_details($settingsService);
 
   @page {
     margin: 8mm;
+  }
+
+  .invoice-document {
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+  }
+
+  .invoice-watermark {
+    position: absolute !important;
+    z-index: 0 !important;
+    opacity: 1 !important;
+    color: #efefef !important;
+    -webkit-text-fill-color: #efefef !important;
+    font-weight: 200 !important;
+    text-shadow: none !important;
+  }
+
+  .invoice-content {
+    position: relative !important;
+    z-index: 3 !important;
+    background: transparent !important;
   }
 }
 </style>
