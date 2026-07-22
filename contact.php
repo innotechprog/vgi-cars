@@ -1,4 +1,24 @@
 <?php
+require_once __DIR__ . '/includes/bootstrap.php';
+
+$sitePhone = trim((string) $settingsService->get('site_phone', ''));
+if ($sitePhone === '') {
+  $sitePhone = trim((string) $settingsService->get('company_phone', '+27 78 979 6523'));
+}
+
+$siteEmail = trim((string) $settingsService->get('site_contact_email', ''));
+if ($siteEmail === '') {
+  $siteEmail = trim((string) $settingsService->get('smtp_from_email', 'autogroupsb@gmail.com'));
+}
+$digitsPhone = preg_replace('/[^0-9]/', '', $sitePhone);
+if ($digitsPhone === '') {
+  $digitsPhone = '27789796523';
+}
+$whatsAppContactHref = trim((string) $settingsService->get('social_whatsapp', ''));
+if ($whatsAppContactHref === '') {
+  $whatsAppContactHref = 'https://wa.me/' . $digitsPhone . '?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20enquire%20about%20a%20vehicle.';
+}
+
 $pageTitle = 'VGi Cars | Contact Us';
 $pageDescription = 'Get in touch with VGi Cars for vehicle enquiries, sourcing requests, viewings, and general assistance.';
 $activePage = 'contact';
@@ -27,23 +47,23 @@ require __DIR__ . '/header.php';
           <p>Use the channel that suits you best and we will help you with stock availability, bookings, or sourcing.</p>
 
           <div class="contact-method-list">
-            <a class="contact-method" href="tel:+27762538318">
+            <a class="contact-method" href="tel:<?= h($digitsPhone) ?>">
               <i class="fa-solid fa-phone"></i>
               <div>
                 <strong>Phone</strong>
-                <span>+27 76 253 8318</span>
+                <span><?= h($sitePhone) ?></span>
               </div>
             </a>
 
-            <a class="contact-method" href="mailto:info@vgicars.co.za?subject=VGi%20Cars%20Enquiry">
+            <a class="contact-method" href="mailto:<?= h($siteEmail) ?>?subject=VGi%20Cars%20Enquiry">
               <i class="fa-solid fa-envelope"></i>
               <div>
                 <strong>Email</strong>
-                <span>info@vgicars.co.za</span>
+                <span><?= h($siteEmail) ?></span>
               </div>
             </a>
 
-            <a class="contact-method" href="https://wa.me/27762538318?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20enquire%20about%20a%20vehicle." target="_blank" rel="noopener noreferrer">
+            <a class="contact-method" href="<?= h($whatsAppContactHref) ?>" target="_blank" rel="noopener noreferrer">
               <i class="fa-brands fa-whatsapp"></i>
               <div>
                 <strong>WhatsApp</strong>
@@ -53,14 +73,14 @@ require __DIR__ . '/header.php';
           </div>
 
           <div class="hero-actions contact-actions">
-            <a class="btn btn-gold" href="https://wa.me/27762538318?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20enquire%20about%20a%20vehicle." target="_blank" rel="noopener noreferrer">Start WhatsApp Chat</a>
+            <a class="btn btn-gold" href="<?= h($whatsAppContactHref) ?>" target="_blank" rel="noopener noreferrer">Start WhatsApp Chat</a>
             <a class="btn btn-outline" href="index#inventory">Browse Cars</a>
           </div>
         </article>
 
         <aside class="contact-card contact-side-card reveal">
           <span class="page-kicker">Visit Us</span>
-          <h3>Johannesburg, South Africa</h3>
+          <h3>25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001</h3>
           <p>Get in touch to arrange a private viewing, discuss a part exchange, or ask about a vehicle before visiting.</p>
 
           <div class="contact-detail-stack">
@@ -68,7 +88,7 @@ require __DIR__ . '/header.php';
               <i class="fa-solid fa-location-dot"></i>
               <div>
                 <strong>Location</strong>
-                <span>Johannesburg, South Africa</span>
+                <span>25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001</span>
               </div>
             </div>
 
@@ -98,7 +118,7 @@ require __DIR__ . '/header.php';
           <h2>Send A Quick Enquiry</h2>
         </div>
 
-        <form class="contact-form-grid" action="mailto:info@vgicars.co.za" method="post" enctype="text/plain">
+        <form class="contact-form-grid" action="mailto:<?= h($siteEmail) ?>" method="post" enctype="text/plain">
           <label>
             <span>Full Name</span>
             <input type="text" name="name" placeholder="Your full name" required />

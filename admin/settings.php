@@ -37,11 +37,11 @@ foreach ($settingsService->all() as $row) {
             </div>
             <div class="col-md-8">
               <label class="form-label">Company Address</label>
-              <input name="company_address" class="form-control" value="<?= h($settings['company_address'] ?? '27 Heidelberg Road, Village Main Johannesburg') ?>">
+              <input name="company_address" class="form-control" value="<?= h($settings['company_address'] ?? '25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001') ?>">
             </div>
             <div class="col-md-4">
               <label class="form-label">Company Phone</label>
-              <input name="company_phone" class="form-control" value="<?= h($settings['company_phone'] ?? '061 508 3008 | 064 525 8326 | 073 490 3109 | 010 746 3535') ?>">
+              <input name="company_phone" class="form-control" value="<?= h($settings['company_phone'] ?? '+27 78 979 6523') ?>">
             </div>
             <div class="col-md-6">
               <label class="form-label">Site Contact Email</label>
@@ -49,7 +49,23 @@ foreach ($settingsService->all() as $row) {
             </div>
             <div class="col-md-6">
               <label class="form-label">Site Phone</label>
-              <input name="site_phone" class="form-control" value="<?= h($settings['site_phone'] ?? '') ?>">
+              <input name="site_phone" class="form-control" value="<?= h($settings['site_phone'] ?? '+27 78 979 6523') ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Facebook URL</label>
+              <input name="social_facebook" type="url" class="form-control" value="<?= h($settings['social_facebook'] ?? '') ?>" placeholder="https://www.facebook.com/yourpage">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Instagram URL</label>
+              <input name="social_instagram" type="url" class="form-control" value="<?= h($settings['social_instagram'] ?? '') ?>" placeholder="https://www.instagram.com/yourprofile">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">LinkedIn URL</label>
+              <input name="social_linkedin" type="url" class="form-control" value="<?= h($settings['social_linkedin'] ?? '') ?>" placeholder="https://www.linkedin.com/company/yourcompany">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">WhatsApp URL (Optional)</label>
+              <input name="social_whatsapp" type="url" class="form-control" value="<?= h($settings['social_whatsapp'] ?? '') ?>" placeholder="https://wa.me/27789796523">
             </div>
             <div class="col-md-6">
               <label class="form-label">SMTP Host</label>

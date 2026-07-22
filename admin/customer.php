@@ -30,6 +30,9 @@ if (!$customer) {
       <div class="card">
         <div class="card-body pt-4 d-flex flex-column">
           <h5 class="card-title"><?= h(trim(($customer['first_names'] ?? '') . ' ' . ($customer['last_name'] ?? ''))) ?></h5>
+          <div class="mb-3">
+            <a href="sale-form.php?customer_id=<?= (int) $customer['customer_id'] ?>" class="btn btn-primary btn-sm">Generate Invoice</a>
+          </div>
           <p class="mb-1"><strong>ID:</strong> <?= h($customer['id_number'] ?? '') ?></p>
           <p class="mb-1"><strong>Email:</strong> <?= h($customer['email'] ?? '') ?></p>
           <p class="mb-1"><strong>Cellphone:</strong> <?= h($customer['cellphone'] ?? '') ?></p>

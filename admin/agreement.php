@@ -14,7 +14,7 @@ if (!$sale || !$items) {
     return;
 }
 
-$company = sales_company_details($settingsService);
+$company = sales_company_details($settingsService, (string) ($sale['sale_brand'] ?? 'sb_autogroup'));
 ?>
 <style>
 .document-wrap {
@@ -150,7 +150,7 @@ $company = sales_company_details($settingsService);
           <div class="d-print-none text-end mb-3">
             <button type="button" class="btn btn-primary" onclick="window.print()">Print Agreement</button>
           </div>
-          <?= render_agreement_content($sale, $items, $company) ?>
+          <?= render_agreement_content($sale, $items, $company, true) ?>
         </div>
       </div>
     </div>

@@ -1,4 +1,11 @@
 <?php
+require_once __DIR__ . '/includes/bootstrap.php';
+
+$sitePhone = trim((string) $settingsService->get('site_phone', ''));
+if ($sitePhone === '') {
+  $sitePhone = trim((string) $settingsService->get('company_phone', '+27 78 979 6523'));
+}
+
 $pageTitle = 'VGi Cars | Vehicle Details';
 $pageDescription = 'Vehicle details and specifications at VGi Cars.';
 $contactHref = 'contact';
@@ -17,24 +24,32 @@ require __DIR__ . '/header.php';
       <div class="gallery-panel reveal">
         <div class="main-image-wrap" id="mainImageWrap">
           <img id="mainVehicleImage" src="" alt="Vehicle image" loading="eager" />
+          <button class="gallery-nav gallery-nav-prev" id="galleryPrev" type="button" aria-label="Previous image">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="gallery-nav gallery-nav-next" id="galleryNext" type="button" aria-label="Next image">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="gallery-counter" id="galleryCounter">
+            <span id="galleryCurrent">1</span> / <span id="galleryTotal">1</span>
+          </div>
         </div>
-        <div class="thumb-row" id="thumbRow"></div>
+        <div class="thumb-row" id="thumbRow" aria-label="Vehicle gallery thumbnails"></div>
       </div>
 
       <aside class="info-panel reveal">
         <h1 id="vehicleTitle">Vehicle Name</h1>
         <p class="price" id="vehiclePrice">R 0</p>
         <div class="actions-row">
-          <button class="btn btn-gold"><i class="fa-solid fa-envelope"></i> Enquire</button>
-          <button class="btn btn-outline"><i class="fa-solid fa-calendar-check"></i> Book Viewing</button>
+          <a class="btn btn-gold" href="contact"><i class="fa-solid fa-envelope"></i> Enquire</a>
         </div>
         <ul class="spec-chips" id="specChips"></ul>
 
         <div class="dealer-card">
           <h3>Dealer Information</h3>
           <p>VGi Cars Premium Showroom</p>
-          <p><i class="fa-solid fa-phone"></i> +27 76 253 8318</p>
-          <p><i class="fa-solid fa-location-dot"></i> Johannesburg, South Africa</p>
+          <p><i class="fa-solid fa-phone"></i> <?= h($sitePhone) ?></p>
+          <p><i class="fa-solid fa-location-dot"></i> 25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001</p>
         </div>
       </aside>
     </section>

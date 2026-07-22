@@ -4,7 +4,9 @@
       <a href="user-profile" class="logo d-flex align-items-center">
         <img src="../images/vgilogo.png" alt="VGi Cars">
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <button type="button" class="toggle-sidebar-btn" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false">
+        <i class="bi bi-list"></i>
+      </button>
     </div>
 
     <nav class="header-nav ms-auto">

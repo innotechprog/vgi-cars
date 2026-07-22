@@ -8,6 +8,7 @@ let searchPanelCompactBound = false;
 
 const INITIAL_VISIBLE = 20;
 const LOAD_STEP = 20;
+const MIN_FILTER_YEAR = 1950;
 
 window.VGI_DATA = { vehicles };
 
@@ -33,7 +34,8 @@ function updateWhatsAppLink(vehicle = null) {
     return;
   }
 
-  const baseNumber = '27762538318';
+  const configured = String(link.getAttribute('data-wa-number') || '').replace(/\D/g, '');
+  const baseNumber = configured || '27789796523';
   const message = vehicle
     ? `Hello VGi Cars, I would like to chat about ${vehicle.name}. ${window.location.href}`
     : 'Hello VGi Cars, I would like to chat about a vehicle.';
@@ -94,6 +96,12 @@ function setRevealObserver() {
     return;
   }
 
+  const isDesktop = window.matchMedia("(min-width: 861px)").matches;
+  if (!isDesktop) {
+    reveals.forEach((item) => item.classList.add("in-view"));
+    return;
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -115,6 +123,12 @@ function initHeroScrollReveal() {
     return;
   }
 
+  const isDesktop = window.matchMedia("(min-width: 861px)").matches;
+  if (!isDesktop) {
+    heroCopy.classList.add("in-view");
+    return;
+  }
+
   heroCopy.classList.remove("in-view");
 
   function onFirstScroll() {
@@ -125,6 +139,67 @@ function initHeroScrollReveal() {
   }
 
   window.addEventListener("scroll", onFirstScroll, { passive: true });
+}
+
+function getCurrentYear() {
+  return new Date().getFullYear();
+}
+
+function populateSelectOptions(selectNode, values, placeholder) {
+  selectNode.innerHTML = `<option value="">${placeholder}</option>`;
+  values.forEach((value) => {
+    selectNode.insertAdjacentHTML("beforeend", `<option value="${value}">${value}</option>`);
+  });
+}
+
+function syncModelOptions(list) {
+  const makeSelect = document.getElementById("filterMake");
+  const modelSelect = document.getElementById("filterModel");
+
+  if (!makeSelect || !modelSelect) {
+    return;
+  }
+
+  const selectedMake = makeSelect.value;
+  const previousModel = modelSelect.value;
+  const models = [...new Set(
+    list
+      .filter((item) => !selectedMake || item.make === selectedMake)
+      .map((item) => item.model)
+      .filter(Boolean)
+  )].sort();
+
+  populateSelectOptions(modelSelect, models, "All Models");
+
+  if (models.includes(previousModel)) {
+    modelSelect.value = previousModel;
+  }
+}
+
+function syncYearOptions() {
+  const yearMinSelect = document.getElementById("filterYearMin");
+  const yearMaxSelect = document.getElementById("filterYearMax");
+
+  if (!yearMinSelect || !yearMaxSelect) {
+    return;
+  }
+
+  const currentYear = getCurrentYear();
+  const selectedYearMin = Number(yearMinSelect.value || MIN_FILTER_YEAR);
+  const previousYearMax = Number(yearMaxSelect.value || 0);
+  const yearMaxValues = [];
+
+  for (let year = selectedYearMin; year <= currentYear; year += 1) {
+    yearMaxValues.push(year);
+  }
+
+  populateSelectOptions(yearMaxSelect, yearMaxValues, "Max Year");
+
+  if (previousYearMax >= selectedYearMin) {
+    yearMaxSelect.value = String(previousYearMax);
+  } else if (previousYearMax !== 0) {
+    yearMaxSelect.value = String(selectedYearMin);
+  }
 }
 
 function populateFilters(list) {
@@ -138,27 +213,22 @@ function populateFilters(list) {
   }
 
   makeSelect.innerHTML = '<option value="">All Makes</option>';
-  modelSelect.innerHTML = '<option value="">All Models</option>';
-  yearMin.innerHTML = '<option value="">Min Year</option>';
-  yearMax.innerHTML = '<option value="">Max Year</option>';
 
   const makes = [...new Set(list.map((item) => item.make).filter(Boolean))].sort();
-  const models = [...new Set(list.map((item) => item.model).filter(Boolean))].sort();
-  const years = [...new Set(list.map((item) => Number(item.year)).filter(Boolean))].sort((a, b) => a - b);
+  const yearValues = [];
+  const currentYear = getCurrentYear();
+
+  for (let year = MIN_FILTER_YEAR; year <= currentYear; year += 1) {
+    yearValues.push(year);
+  }
 
   makes.forEach((make) => {
     makeSelect.insertAdjacentHTML("beforeend", `<option value="${make}">${make}</option>`);
   });
 
-  models.forEach((model) => {
-    modelSelect.insertAdjacentHTML("beforeend", `<option value="${model}">${model}</option>`);
-  });
-
-  years.forEach((year) => {
-    const option = `<option value="${year}">${year}</option>`;
-    yearMin.insertAdjacentHTML("beforeend", option);
-    yearMax.insertAdjacentHTML("beforeend", option);
-  });
+  populateSelectOptions(yearMin, yearValues, "Min Year");
+  syncModelOptions(list);
+  syncYearOptions();
 }
 
 function renderFeatured(list) {
@@ -298,8 +368,28 @@ function initHomePage() {
     applyFilters();
   });
 
-  ["filterMake", "filterModel", "filterYearMin", "filterYearMax", "filterPrice", "filterSort"].forEach((id) => {
-    const field = document.getElementById(id);
+  const makeField = document.getElementById("filterMake");
+  const modelField = document.getElementById("filterModel");
+  const yearMinField = document.getElementById("filterYearMin");
+  const yearMaxField = document.getElementById("filterYearMax");
+  const priceField = document.getElementById("filterPrice");
+  const sortField = document.getElementById("filterSort");
+
+  if (makeField) {
+    makeField.addEventListener("change", () => {
+      syncModelOptions(homeSource);
+      applyFilters();
+    });
+  }
+
+  if (yearMinField) {
+    yearMinField.addEventListener("change", () => {
+      syncYearOptions();
+      applyFilters();
+    });
+  }
+
+  [modelField, yearMaxField, priceField, sortField].forEach((field) => {
     if (field) {
       field.addEventListener("change", applyFilters);
     }

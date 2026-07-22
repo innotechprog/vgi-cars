@@ -388,6 +388,9 @@ h6 {
 }
 
 .header .toggle-sidebar-btn {
+  border: 0;
+  background: transparent;
+  line-height: 1;
   font-size: 32px;
   padding-left: 10px;
   cursor: pointer;

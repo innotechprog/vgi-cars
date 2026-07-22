@@ -8,7 +8,71 @@ $footerWhyItems = $footerWhyItems ?? [
     'Enthusiast-led service',
 ];
 $footerScripts = $footerScripts ?? ['js/main.js?v=20260720d'];
-$whatsAppHref = $whatsAppHref ?? 'https://wa.me/27762538318?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
+$whatsAppHref = $whatsAppHref ?? 'https://wa.me/27789796523?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
+
+if (!isset($settingsService)) {
+  try {
+    require_once __DIR__ . '/includes/bootstrap.php';
+  } catch (Throwable $e) {
+    // Footer should still render with defaults if settings are unavailable.
+  }
+}
+
+$setting = static function (string $key, string $default = '') use (&$settingsService): string {
+  if (!isset($settingsService) || !method_exists($settingsService, 'get')) {
+    return $default;
+  }
+
+  $value = trim((string) $settingsService->get($key, $default));
+  return $value !== '' ? $value : $default;
+};
+
+$sitePhone = $setting('site_phone', '');
+if ($sitePhone === '') {
+  $sitePhone = $setting('company_phone', '+27 78 979 6523');
+}
+
+$siteEmail = $setting('site_contact_email', '');
+if ($siteEmail === '') {
+  $siteEmail = $setting('smtp_from_email', 'autogroupsb@gmail.com');
+}
+
+$settingPhone = preg_replace('/[^0-9]/', '', $sitePhone);
+if ($settingPhone === '') {
+  $settingPhone = '27789796523';
+}
+
+$defaultWhatsapp = 'https://wa.me/' . $settingPhone . '?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
+$whatsAppHref = $setting('social_whatsapp', $whatsAppHref ?: $defaultWhatsapp);
+$facebookHref = $setting('social_facebook', 'https://www.facebook.com/');
+$instagramHref = $setting('social_instagram', 'https://www.instagram.com/');
+$linkedinHref = $setting('social_linkedin', 'https://www.linkedin.com/');
+$footerSocialLinks = $footerSocialLinks ?? [
+  [
+  'href' => $facebookHref,
+    'label' => 'Facebook',
+    'icon' => 'fa-brands fa-facebook-f',
+    'class' => 'is-facebook',
+  ],
+  [
+  'href' => $instagramHref,
+    'label' => 'Instagram',
+    'icon' => 'fa-brands fa-instagram',
+    'class' => 'is-instagram',
+  ],
+  [
+    'href' => $whatsAppHref,
+    'label' => 'WhatsApp',
+    'icon' => 'fa-brands fa-whatsapp',
+    'class' => 'is-whatsapp',
+  ],
+  [
+    'href' => $linkedinHref,
+    'label' => 'LinkedIn',
+    'icon' => 'fa-brands fa-linkedin-in',
+    'class' => 'is-linkedin',
+  ],
+];
 $footerLogoPath = 'images/vgilogo.png';
 $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 ?>
@@ -40,17 +104,32 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
       <div>
         <h4>Contact Us</h4>
         <ul>
-          <li><i class="fa-solid fa-phone"></i> +27 76 253 8318</li>
-          <li><i class="fa-solid fa-envelope"></i> info@vgicars.co.za</li>
-          <li><i class="fa-solid fa-location-dot"></i> Johannesburg, South Africa</li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:<?= $escape($settingPhone) ?>"><?= $escape($sitePhone) ?></a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:<?= $escape($siteEmail) ?>"><?= $escape($siteEmail) ?></a></li>
+          <li><i class="fa-solid fa-location-dot"></i> 25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001</li>
         </ul>
+        <div class="footer-social-links" aria-label="VGi Cars social media links">
+          <?php foreach ($footerSocialLinks as $social): ?>
+            <?php
+            $href = trim((string) ($social['href'] ?? ''));
+            $label = trim((string) ($social['label'] ?? 'Social'));
+            $icon = trim((string) ($social['icon'] ?? 'fa-solid fa-link'));
+            $class = trim((string) ($social['class'] ?? ''));
+            ?>
+            <?php if ($href !== ''): ?>
+              <a href="<?= $escape($href) ?>" class="social-link <?= $escape($class) ?>" target="_blank" rel="noopener noreferrer" aria-label="<?= $escape($label) ?>">
+                <i class="<?= $escape($icon) ?>" aria-hidden="true"></i>
+              </a>
+            <?php endif; ?>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
     <p class="copyright">&copy; <span id="yearNow"></span> VGi Cars. All Rights Reserved.</p>
     <p class="copyright developer-credit">Developed by <a href="https://ib-innovativesolutions.com/it-solutions" target="_blank" rel="noopener noreferrer">IB Innovative Solutions</a></p>
   </footer>
 
-  <a class="whatsapp-float" href="<?= $escape($whatsAppHref) ?>" target="_blank" rel="noopener noreferrer" aria-label="Chat to us on WhatsApp">
+  <a class="whatsapp-float" href="<?= $escape($whatsAppHref) ?>" data-wa-number="<?= $escape($settingPhone) ?>" target="_blank" rel="noopener noreferrer" aria-label="Chat to us on WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
     <span>Chat to us</span>
   </a>

@@ -16,7 +16,7 @@ if (!$sale || !$items) {
     exit;
 }
 
-$company = sales_company_details($settingsService);
+$company = sales_company_details($settingsService, (string) ($sale['sale_brand'] ?? 'sb_autogroup'));
 $html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:helvetica,sans-serif;font-size:12px;color:#111;line-height:1.5;}h3{text-align:center;}p{margin:0 0 12px;} .document-wrap{padding:12px;}</style></head><body>'
     . render_agreement_content($sale, $items, $company, true)
     . '</body></html>';
@@ -24,8 +24,8 @@ $html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-famil
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
-$pdf->SetMargins(12, 12, 12);
-$pdf->SetAutoPageBreak(true, 12);
+$pdf->SetMargins(6, 6, 6);
+$pdf->SetAutoPageBreak(true, 6);
 $pdf->AddPage();
 $pdf->writeHTML($html, true, false, true, false, '');
 $pdf->Output('agreement-' . $sale['invoice_number'] . '.pdf', 'D');

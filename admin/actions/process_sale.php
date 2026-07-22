@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $customerData = [
+    'customer_id' => (int) ($_POST['customer_id'] ?? 0),
     'first_names' => trim((string) ($_POST['first_names'] ?? '')),
     'last_name' => trim((string) ($_POST['last_name'] ?? '')),
     'id_number' => trim((string) ($_POST['id_number'] ?? '')),
@@ -102,6 +103,7 @@ if (!$items) {
 
 $saleData = [
     'created_by_user_id' => $auth->id(),
+    'sale_brand' => in_array((string) ($_POST['sale_brand'] ?? ''), ['sb_autogroup', 'vgi_cars'], true) ? (string) $_POST['sale_brand'] : 'sb_autogroup',
     'sale_date' => trim((string) ($_POST['sale_date'] ?? date('Y-m-d'))),
     'payment_method' => trim((string) ($_POST['payment_method'] ?? 'cash')),
     'deposit_amount' => (float) ($_POST['deposit_amount'] ?? 0),

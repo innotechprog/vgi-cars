@@ -64,7 +64,10 @@ $customers = $salesService->listCustomersPaginated($page, $perPage, $filters);
                   <td><?= (int) ($customer['total_sales'] ?? 0) ?></td>
                   <td>R<?= number_format((float) ($customer['total_spent'] ?? 0), 2) ?></td>
                   <td><?= h($customer['last_purchase_date'] ?? '') ?></td>
-                  <td><a href="customer.php?id=<?= (int) $customer['customer_id'] ?>" class="btn btn-sm btn-outline-primary">View History</a></td>
+                  <td>
+                    <a href="customer.php?id=<?= (int) $customer['customer_id'] ?>" class="btn btn-sm btn-outline-primary">View History</a>
+                    <a href="sale-form.php?customer_id=<?= (int) $customer['customer_id'] ?>" class="btn btn-sm btn-outline-secondary">Generate Invoice</a>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

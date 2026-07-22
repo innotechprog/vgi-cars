@@ -14,7 +14,7 @@ if (!$sale) {
     return;
 }
 
-$company = sales_company_details($settingsService);
+$company = sales_company_details($settingsService, (string) ($sale['sale_brand'] ?? 'sb_autogroup'));
 ?>
 <style>
 @media print {
@@ -126,7 +126,7 @@ $company = sales_company_details($settingsService);
             <a href="agreement.php?sale_id=<?= (int) $saleId ?>" class="btn btn-outline-secondary">View Agreement</a>
             <button type="button" class="btn btn-primary" onclick="window.print()">Print Invoice</button>
           </div>
-          <?= render_invoice_content($sale, $items, $company) ?>
+          <?= render_invoice_content($sale, $items, $company, true) ?>
         </div>
       </div>
     </div>

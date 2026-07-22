@@ -617,6 +617,7 @@ class SalesService
             sale_id INT AUTO_INCREMENT PRIMARY KEY,
             sale_number VARCHAR(50) NOT NULL UNIQUE,
             invoice_number VARCHAR(50) NOT NULL UNIQUE,
+            sale_brand VARCHAR(32) NOT NULL DEFAULT "sb_autogroup",
             customer_id INT NOT NULL,
             created_by_user_id INT DEFAULT NULL,
             sale_date DATE NOT NULL,
@@ -633,6 +634,15 @@ class SalesService
             INDEX idx_sales_customer (customer_id),
             INDEX idx_sales_date (sale_date)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+
+        try {
+            $this->db->exec('ALTER TABLE sales ADD COLUMN sale_brand VARCHAR(32) NOT NULL DEFAULT "sb_autogroup" AFTER invoice_number');
+        } catch (Throwable $e) {
+            // Ignore duplicate-column errors when the schema is already up to date.
+            if (!($e instanceof PDOException) || (int) ($e->errorInfo[1] ?? 0) !== 1060) {
+                throw $e;
+            }
+        }
 
         $this->db->exec('CREATE TABLE IF NOT EXISTS sale_items (
             sale_item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -748,6 +758,30 @@ class SalesService
         return $stmt->fetchAll();
     }
 
+    public function listCustomerOptions(int $limit = 500): array
+    {
+        $limit = max(1, min(1000, $limit));
+        $stmt = $this->db->prepare('SELECT
+                customer_id,
+                first_names,
+                last_name,
+                id_number,
+                email,
+                cellphone,
+                address_line1,
+                address_line2,
+                city,
+                state_region,
+                postal_code,
+                country
+            FROM customers
+            ORDER BY customer_id DESC
+            LIMIT :limit');
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public function listPaginated(int $page = 1, int $perPage = 15, array $filters = []): array
     {
         $page = max(1, $page);
@@ -807,14 +841,15 @@ class SalesService
             $total = (float) ($saleData['total_amount'] ?? ($subtotal + $adminFee - $deposit));
 
             $saleStmt = $this->db->prepare('INSERT INTO sales
-                (sale_number, invoice_number, customer_id, created_by_user_id, sale_date, payment_method,
+                (sale_number, invoice_number, sale_brand, customer_id, created_by_user_id, sale_date, payment_method,
                  subtotal_amount, deposit_amount, admin_fee_amount, outstanding_amount, total_amount, notes, status)
                 VALUES
-                (:sale_number, :invoice_number, :customer_id, :created_by_user_id, :sale_date, :payment_method,
+                (:sale_number, :invoice_number, :sale_brand, :customer_id, :created_by_user_id, :sale_date, :payment_method,
                  :subtotal_amount, :deposit_amount, :admin_fee_amount, :outstanding_amount, :total_amount, :notes, :status)');
             $saleStmt->execute([
                 'sale_number' => $saleNumber,
                 'invoice_number' => $invoiceNumber,
+                'sale_brand' => in_array((string) ($saleData['sale_brand'] ?? ''), ['sb_autogroup', 'vgi_cars'], true) ? (string) $saleData['sale_brand'] : 'sb_autogroup',
                 'customer_id' => $customerId,
                 'created_by_user_id' => $saleData['created_by_user_id'] ?? null,
                 'sale_date' => $saleData['sale_date'] ?? date('Y-m-d'),
@@ -884,8 +919,47 @@ class SalesService
 
     private function upsertCustomer(array $data): int
     {
+        $customerId = (int) ($data['customer_id'] ?? 0);
         $idNumber = trim((string) ($data['id_number'] ?? ''));
         $email = trim((string) ($data['email'] ?? ''));
+
+        if ($customerId > 0) {
+            $stmt = $this->db->prepare('SELECT customer_id FROM customers WHERE customer_id = :customer_id LIMIT 1');
+            $stmt->execute(['customer_id' => $customerId]);
+            $existing = $stmt->fetch();
+            if ($existing) {
+                $payload = [
+                    'first_names' => trim((string) ($data['first_names'] ?? '')),
+                    'last_name' => trim((string) ($data['last_name'] ?? '')),
+                    'id_number' => $idNumber !== '' ? $idNumber : null,
+                    'email' => $email !== '' ? $email : null,
+                    'cellphone' => trim((string) ($data['cellphone'] ?? '')),
+                    'address_line1' => trim((string) ($data['address_line1'] ?? '')),
+                    'address_line2' => trim((string) ($data['address_line2'] ?? '')),
+                    'city' => trim((string) ($data['city'] ?? '')),
+                    'state_region' => trim((string) ($data['state_region'] ?? '')),
+                    'postal_code' => trim((string) ($data['postal_code'] ?? '')),
+                    'country' => trim((string) ($data['country'] ?? '')),
+                    'customer_id' => $customerId,
+                ];
+
+                $stmt = $this->db->prepare('UPDATE customers SET
+                    first_names = :first_names,
+                    last_name = :last_name,
+                    id_number = :id_number,
+                    email = :email,
+                    cellphone = :cellphone,
+                    address_line1 = :address_line1,
+                    address_line2 = :address_line2,
+                    city = :city,
+                    state_region = :state_region,
+                    postal_code = :postal_code,
+                    country = :country
+                    WHERE customer_id = :customer_id');
+                $stmt->execute($payload);
+                return $customerId;
+            }
+        }
 
         $existing = null;
         if ($idNumber !== '') {

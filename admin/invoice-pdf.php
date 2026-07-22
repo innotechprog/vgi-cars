@@ -16,7 +16,7 @@ if (!$sale) {
     exit;
 }
 
-$company = sales_company_details($settingsService);
+$company = sales_company_details($settingsService, (string) ($sale['sale_brand'] ?? 'sb_autogroup'));
 $renderInvoicePdf = function (array $sale, array $items, array $company): string {
     if (function_exists('render_invoice_pdf_content')) {
         return render_invoice_pdf_content($sale, $items, $company);
@@ -31,8 +31,8 @@ $html = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-famil
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
-$pdf->SetMargins(12, 12, 12);
-$pdf->SetAutoPageBreak(true, 12);
+$pdf->SetMargins(6, 6, 6);
+$pdf->SetAutoPageBreak(true, 6);
 $pdf->AddPage();
 $pdf->writeHTML($html, true, false, true, false, '');
 $pdf->Output('invoice-' . $sale['invoice_number'] . '.pdf', 'D');

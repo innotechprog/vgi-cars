@@ -42,9 +42,13 @@
   /**
    * Sidebar toggle
    */
-  if (select('.toggle-sidebar-btn')) {
-    on('click', '.toggle-sidebar-btn', function(e) {
-      select('body').classList.toggle('toggle-sidebar')
+  const sidebarToggleButton = select('.toggle-sidebar-btn')
+  if (sidebarToggleButton) {
+    sidebarToggleButton.addEventListener('click', function(e) {
+      e.preventDefault()
+      const body = select('body')
+      const isOpen = body.classList.toggle('toggle-sidebar')
+      sidebarToggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
     })
   }
 
@@ -53,7 +57,11 @@
    */
   if (select('.search-bar-toggle')) {
     on('click', '.search-bar-toggle', function(e) {
-      select('.search-bar').classList.toggle('search-bar-show')
+      const searchBar = select('.search-bar')
+      if (!searchBar) {
+        return
+      }
+      searchBar.classList.toggle('search-bar-show')
     })
   }
 
@@ -261,7 +269,6 @@
       content_css: useDarkMode ? 'dark' : 'default'
     });
   }
-  });
 
   /**
    * Initiate Bootstrap validation check

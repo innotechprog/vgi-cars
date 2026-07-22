@@ -65,6 +65,10 @@ require __DIR__ . '/header.php';
           <span>Price Up To</span>
           <select id="filterPrice">
             <option value="">No Limit</option>
+            <option value="50000">R 50,000</option>
+            <option value="100000">R 100,000</option>
+            <option value="250000">R 250,000</option>
+            <option value="500000">R 500,000</option>
             <option value="800000">R 800,000</option>
             <option value="1000000">R 1,000,000</option>
             <option value="1200000">R 1,200,000</option>
