@@ -131,6 +131,6 @@ $footerWhyItems = [
     'Trusted guidance',
     'Collector mindset',
 ];
-$footerScripts = ['js/main.js?v=20260723b', 'js/slider.js?v=20260723b'];
+$footerScripts = ['js/main.js?v=20260723c', 'js/slider.js?v=20260723c'];
 require __DIR__ . '/footer.php';
 ?>

@@ -7,7 +7,7 @@ $footerWhyItems = $footerWhyItems ?? [
     'Trusted buying support',
     'Enthusiast-led service',
 ];
-$footerScripts = $footerScripts ?? ['js/main.js?v=20260723b'];
+$footerScripts = $footerScripts ?? ['js/main.js?v=20260723c'];
 $whatsAppHref = $whatsAppHref ?? 'https://wa.me/27789796523?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
 
 if (!isset($assetBase)) {
@@ -16,9 +16,22 @@ if (!isset($assetBase)) {
 }
 
 if (!isset($asset) || !is_callable($asset)) {
-  $asset = static function (string $path) use ($assetBase): string {
+  $encodeUrlPath = static function (string $path): string {
+    $path = str_replace('\\', '/', $path);
+    $absolute = isset($path[0]) && $path[0] === '/';
+    $path = trim($path, '/');
+    if ($path === '') {
+      return '';
+    }
+
+    $encoded = implode('/', array_map('rawurlencode', explode('/', $path)));
+    return ($absolute ? '/' : '') . $encoded;
+  };
+
+  $asset = static function (string $path) use ($assetBase, $encodeUrlPath): string {
     $path = ltrim(str_replace('\\', '/', $path), '/');
-    return ($assetBase === '' ? '' : $assetBase) . '/' . $path;
+    $base = $assetBase === '' ? '' : $encodeUrlPath($assetBase);
+    return ($base === '' ? '' : $base) . '/' . $encodeUrlPath($path);
   };
 }
 

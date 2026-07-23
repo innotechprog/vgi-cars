@@ -19,8 +19,15 @@ function appUrl(path = "") {
   }
 
   const base = typeof window.VGI_BASE === "string" ? window.VGI_BASE : "";
+  const decodedBase = base ? decodeURIComponent(base) : "";
+
   if (base && (raw === base || raw.startsWith(`${base}/`))) {
     return raw;
+  }
+
+  if (decodedBase && (raw === decodedBase || raw.startsWith(`${decodedBase}/`))) {
+    const suffix = raw.slice(decodedBase.length).replace(/^\/+/, "");
+    return suffix ? `${base}/${suffix.split("/").map(encodeURIComponent).join("/")}` : base;
   }
 
   if (!base && raw.startsWith("/")) {
@@ -32,7 +39,17 @@ function appUrl(path = "") {
     return base || "/";
   }
 
-  return `${base}/${cleanPath}`;
+  const encodedPath = cleanPath
+    .split("?")
+    .map((part, index) => {
+      if (index === 0) {
+        return part.split("/").map(encodeURIComponent).join("/");
+      }
+      return part;
+    })
+    .join("?");
+
+  return `${base}/${encodedPath}`;
 }
 
 async function fetchJson(url) {

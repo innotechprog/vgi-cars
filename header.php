@@ -5,7 +5,7 @@ $pageKeywords = $pageKeywords ?? 'cars for sale, buy cars, sell cars, used cars,
 $activePage = $activePage ?? '';
 $contactHref = $contactHref ?? 'contact';
 $buyCarHref = $buyCarHref ?? 'index#inventory';
-$assetVersion = '20260723b';
+$assetVersion = '20260723c';
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
@@ -13,20 +13,33 @@ $baseUrl = $scheme . '://' . $host;
 $canonicalUrl = $canonicalUrl ?? ($baseUrl . $requestUri);
 $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
 $assetBase = ($scriptDir === '/' || $scriptDir === '.' || $scriptDir === '') ? '' : rtrim($scriptDir, '/');
-$asset = static function (string $path) use ($assetBase): string {
+$encodeUrlPath = static function (string $path): string {
+  $path = str_replace('\\', '/', $path);
+  $absolute = str_starts_with($path, '/');
+  $path = trim($path, '/');
+  if ($path === '') {
+    return $absolute ? '' : '';
+  }
+
+  $encoded = implode('/', array_map('rawurlencode', explode('/', $path)));
+  return ($absolute ? '/' : '') . $encoded;
+};
+$asset = static function (string $path) use ($assetBase, $encodeUrlPath): string {
   $path = ltrim(str_replace('\\', '/', $path), '/');
-  return ($assetBase === '' ? '' : $assetBase) . '/' . $path;
+  $base = $assetBase === '' ? '' : $encodeUrlPath($assetBase);
+  return ($base === '' ? '' : $base) . '/' . $encodeUrlPath($path);
 };
 $logoPath = $asset('images/vgilogo.png');
 $ogImage = $ogImage ?? ($baseUrl . $logoPath);
 $ogType = $ogType ?? 'website';
 $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+$vgiBaseJs = $assetBase === '' ? '' : $encodeUrlPath($assetBase);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><?= $escape($pageTitle) ?></title>
   <meta name="description" content="<?= $escape($pageDescription) ?>" />
   <meta name="keywords" content="<?= $escape($pageKeywords) ?>" />
@@ -54,7 +67,7 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" href="<?= $escape($asset('css/style.css')) ?>?v=<?= $escape($assetVersion) ?>" />
   <link rel="stylesheet" href="<?= $escape($asset('css/responsive.css')) ?>?v=<?= $escape($assetVersion) ?>" />
-  <script>window.VGI_BASE = <?= json_encode($assetBase, JSON_UNESCAPED_SLASHES) ?>;</script>
+  <script>window.VGI_BASE = <?= json_encode($vgiBaseJs, JSON_UNESCAPED_SLASHES) ?>;</script>
 </head>
 <body>
   <header class="site-header" id="siteHeader">

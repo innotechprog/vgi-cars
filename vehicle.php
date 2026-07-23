@@ -128,6 +128,6 @@ require __DIR__ . '/header.php';
 
 <?php
 $footerIntro = 'Classic motoring heritage, curated with precision and trust.';
-$footerScripts = ['js/main.js?v=20260723b', 'js/gallery.js?v=20260723b', 'js/finance.js?v=20260723b'];
+$footerScripts = ['js/main.js?v=20260723c', 'js/gallery.js?v=20260723c', 'js/finance.js?v=20260723c'];
 require __DIR__ . '/footer.php';
 ?>

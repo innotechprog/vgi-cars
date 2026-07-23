@@ -177,6 +177,6 @@ require __DIR__ . '/header.php';
 <?php
 $footerId = 'contact-footer';
 $footerIntro = 'Contact VGi Cars for vehicle enquiries, sourcing requests, and viewing arrangements handled with clarity and attention to detail.';
-$footerScripts = ['js/main.js?v=20260723b'];
+$footerScripts = ['js/main.js?v=20260723c'];
 require __DIR__ . '/footer.php';
 ?>
