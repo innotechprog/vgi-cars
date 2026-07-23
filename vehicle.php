@@ -1,9 +1,25 @@
 <?php
 require_once __DIR__ . '/includes/bootstrap.php';
 
+$profilePhone = '+27 78 979 6523';
+if (isset($db) && $db instanceof PDO) {
+  try {
+    $stmt = $db->query("SELECT phone_number FROM users WHERE role = 'admin' ORDER BY user_id ASC LIMIT 1");
+    $row = $stmt ? $stmt->fetch() : false;
+    if (is_array($row)) {
+      $candidatePhone = trim((string) ($row['phone_number'] ?? ''));
+      if ($candidatePhone !== '') {
+        $profilePhone = $candidatePhone;
+      }
+    }
+  } catch (Throwable $e) {
+    // Keep default phone when profile lookup fails.
+  }
+}
+
 $sitePhone = trim((string) $settingsService->get('site_phone', ''));
 if ($sitePhone === '') {
-  $sitePhone = trim((string) $settingsService->get('company_phone', '+27 78 979 6523'));
+  $sitePhone = trim((string) $settingsService->get('company_phone', $profilePhone));
 }
 
 $pageTitle = 'VGi Cars | Vehicle Details';
@@ -112,6 +128,6 @@ require __DIR__ . '/header.php';
 
 <?php
 $footerIntro = 'Classic motoring heritage, curated with precision and trust.';
-$footerScripts = ['js/main.js?v=20260720d', 'js/gallery.js', 'js/finance.js'];
+$footerScripts = ['js/main.js?v=20260723b', 'js/gallery.js?v=20260723b', 'js/finance.js?v=20260723b'];
 require __DIR__ . '/footer.php';
 ?>

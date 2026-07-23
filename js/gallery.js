@@ -94,7 +94,11 @@ function initVehicleGallery(vehicle) {
     thumbRow.querySelectorAll(".thumb").forEach((thumb, index) => {
       thumb.classList.toggle("active", index === current);
       if (index === current) {
-        thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        const targetLeft = thumb.offsetLeft - (thumbRow.clientWidth - thumb.offsetWidth) / 2;
+        thumbRow.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: "smooth",
+        });
       }
     });
   }

@@ -1,6 +1,18 @@
 RewriteEngine On
+DirectoryIndex index.php
 
-# Map extensionless paths to their .php files.
+# Always use dynamic homepage so settings-driven contact details are shown.
+RewriteRule ^index\.html$ index.php [NC,L,R=301]
+
+# Map extensionless paths to their .php files (keep query strings).
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [NC,L,QSA]
+
+# Avoid stale CSS/JS after deploys when hosts ignore query-string cache busting.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </FilesMatch>
+</IfModule>

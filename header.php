@@ -5,13 +5,19 @@ $pageKeywords = $pageKeywords ?? 'cars for sale, buy cars, sell cars, used cars,
 $activePage = $activePage ?? '';
 $contactHref = $contactHref ?? 'contact';
 $buyCarHref = $buyCarHref ?? 'index#inventory';
-$assetVersion = '20260720c';
+$assetVersion = '20260723b';
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 $baseUrl = $scheme . '://' . $host;
 $canonicalUrl = $canonicalUrl ?? ($baseUrl . $requestUri);
-$logoPath = '/images/vgilogo.png';
+$scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+$assetBase = ($scriptDir === '/' || $scriptDir === '.' || $scriptDir === '') ? '' : rtrim($scriptDir, '/');
+$asset = static function (string $path) use ($assetBase): string {
+  $path = ltrim(str_replace('\\', '/', $path), '/');
+  return ($assetBase === '' ? '' : $assetBase) . '/' . $path;
+};
+$logoPath = $asset('images/vgilogo.png');
 $ogImage = $ogImage ?? ($baseUrl . $logoPath);
 $ogType = $ogType ?? 'website';
 $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -46,14 +52,15 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css?v=<?= $assetVersion ?>" />
-  <link rel="stylesheet" href="css/responsive.css?v=<?= $assetVersion ?>" />
+  <link rel="stylesheet" href="<?= $escape($asset('css/style.css')) ?>?v=<?= $escape($assetVersion) ?>" />
+  <link rel="stylesheet" href="<?= $escape($asset('css/responsive.css')) ?>?v=<?= $escape($assetVersion) ?>" />
+  <script>window.VGI_BASE = <?= json_encode($assetBase, JSON_UNESCAPED_SLASHES) ?>;</script>
 </head>
 <body>
   <header class="site-header" id="siteHeader">
     <nav class="container nav-wrap">
       <a class="logo" href="index" aria-label="VGi Cars home">
-        <img src="<?= $escape(ltrim($logoPath, '/')) ?>" alt="VGi Cars" class="site-logo-image" />
+        <img src="<?= $escape($logoPath) ?>" alt="VGi Cars" class="site-logo-image" />
         <span class="mobile-logo-text">Drive with pride</span>
       </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">

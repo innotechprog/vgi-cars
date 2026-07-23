@@ -1,23 +1,41 @@
 <?php
 require_once __DIR__ . '/includes/bootstrap.php';
 
-$sitePhone = trim((string) $settingsService->get('site_phone', ''));
-if ($sitePhone === '') {
-  $sitePhone = trim((string) $settingsService->get('company_phone', '+27 78 979 6523'));
+$profilePhone = '+27 78 979 6523';
+$profileEmail = 'info@vgicars.co.za';
+if (isset($db) && $db instanceof PDO) {
+  try {
+    $stmt = $db->query("SELECT phone_number, email FROM users WHERE role = 'admin' ORDER BY user_id ASC LIMIT 1");
+    $row = $stmt ? $stmt->fetch() : false;
+    if (is_array($row)) {
+      $candidatePhone = trim((string) ($row['phone_number'] ?? ''));
+      $candidateEmail = trim((string) ($row['email'] ?? ''));
+      if ($candidatePhone !== '') {
+        $profilePhone = $candidatePhone;
+      }
+      if ($candidateEmail !== '') {
+        $profileEmail = $candidateEmail;
+      }
+    }
+  } catch (Throwable $e) {
+    // Keep defaults when profile lookup fails.
+  }
 }
 
-$siteEmail = trim((string) $settingsService->get('site_contact_email', ''));
+$sitePhone = trim((string) $settingsService->get('site_phone', '+27789796523'));
+if ($sitePhone === '') {
+  $sitePhone = trim((string) $settingsService->get('company_phone', $profilePhone));
+}
+
+$siteEmail = trim((string) $settingsService->get('site_contact_email', 'info@vgicars.co.za'));
 if ($siteEmail === '') {
-  $siteEmail = trim((string) $settingsService->get('smtp_from_email', 'autogroupsb@gmail.com'));
+  $siteEmail = trim((string) $settingsService->get('smtp_from_email', $profileEmail));
 }
 $digitsPhone = preg_replace('/[^0-9]/', '', $sitePhone);
 if ($digitsPhone === '') {
   $digitsPhone = '27789796523';
 }
-$whatsAppContactHref = trim((string) $settingsService->get('social_whatsapp', ''));
-if ($whatsAppContactHref === '') {
-  $whatsAppContactHref = 'https://wa.me/' . $digitsPhone . '?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20enquire%20about%20a%20vehicle.';
-}
+$whatsAppContactHref = 'https://wa.me/' . $digitsPhone . '?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20enquire%20about%20a%20vehicle.';
 
 $pageTitle = 'VGi Cars | Contact Us';
 $pageDescription = 'Get in touch with VGi Cars for vehicle enquiries, sourcing requests, viewings, and general assistance.';
@@ -159,6 +177,6 @@ require __DIR__ . '/header.php';
 <?php
 $footerId = 'contact-footer';
 $footerIntro = 'Contact VGi Cars for vehicle enquiries, sourcing requests, and viewing arrangements handled with clarity and attention to detail.';
-$footerScripts = ['js/main.js?v=20260720d'];
+$footerScripts = ['js/main.js?v=20260723b'];
 require __DIR__ . '/footer.php';
 ?>

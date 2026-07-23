@@ -12,6 +12,29 @@ const MIN_FILTER_YEAR = 1950;
 
 window.VGI_DATA = { vehicles };
 
+function appUrl(path = "") {
+  const raw = String(path || "").trim();
+  if (!raw || /^(https?:)?\/\//i.test(raw) || raw.startsWith("data:")) {
+    return raw;
+  }
+
+  const base = typeof window.VGI_BASE === "string" ? window.VGI_BASE : "";
+  if (base && (raw === base || raw.startsWith(`${base}/`))) {
+    return raw;
+  }
+
+  if (!base && raw.startsWith("/")) {
+    return raw;
+  }
+
+  const cleanPath = raw.replace(/^\/+/, "");
+  if (!cleanPath) {
+    return base || "/";
+  }
+
+  return `${base}/${cleanPath}`;
+}
+
 async function fetchJson(url) {
   const response = await fetch(url, { headers: { Accept: "application/json" } });
   if (!response.ok) {
@@ -44,7 +67,7 @@ function updateWhatsAppLink(vehicle = null) {
 }
 
 function vehicleCardTemplate(vehicle) {
-  const image = vehicle.image || "images/hero-bg.png";
+  const image = appUrl(vehicle.image || "images/hero-bg.png");
   return `
     <article class="vehicle-card reveal">
       <div class="vehicle-image">
@@ -53,10 +76,10 @@ function vehicleCardTemplate(vehicle) {
       </div>
       <div class="vehicle-content">
         <h3>${vehicle.name}</h3>
-        <p class="meta">${vehicle.engine || "Engine"} � ${vehicle.transmission || "Auto"} � ${formatMileage(vehicle.mileage || 0)}</p>
+        <p class="meta">${vehicle.engine || "Engine"} · ${vehicle.transmission || "Auto"} · ${formatMileage(vehicle.mileage || 0)}</p>
         <div class="price-row">
           <span class="price-tag">${formatPrice(vehicle.price || 0)}</span>
-          <a class="btn btn-outline" href="vehicle?id=${vehicle.id}">View Details</a>
+          <a class="btn btn-outline" href="${appUrl(`vehicle?id=${vehicle.id}`)}">View Details</a>
         </div>
       </div>
     </article>
@@ -434,12 +457,14 @@ async function initVehiclePage() {
     return;
   }
 
-  const detailResult = await fetchJson(`api/car?id=${id}`);
+  const detailResult = await fetchJson(appUrl(`api/car?id=${id}`));
   if (!detailResult.success || !detailResult.data) {
     return;
   }
 
   const selectedVehicle = detailResult.data;
+  selectedVehicle.image = appUrl(selectedVehicle.image || "images/hero-bg.png");
+  selectedVehicle.gallery = (selectedVehicle.gallery || []).map((image) => appUrl(image));
   window.VGI_DATA.selectedVehicle = selectedVehicle;
   updateWhatsAppLink(selectedVehicle);
 
@@ -477,9 +502,12 @@ async function initVehiclePage() {
 }
 
 async function loadVehicles() {
-  const result = await fetchJson("api/cars");
+  const result = await fetchJson(appUrl("api/cars"));
   if (result.success && Array.isArray(result.data)) {
-    vehicles = result.data;
+    vehicles = result.data.map((vehicle) => ({
+      ...vehicle,
+      image: appUrl(vehicle.image || "images/hero-bg.png"),
+    }));
     window.VGI_DATA.vehicles = vehicles;
   }
 }

@@ -636,11 +636,21 @@ textarea {
   font-size: 0.9rem;
 }
 
+.details-page {
+  overflow-x: hidden;
+}
+
 .details-layout {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1.2rem;
   margin-top: 1rem;
+}
+
+@media (min-width: 1101px) {
+  .details-layout {
+    grid-template-columns: 1.5fr 1fr;
+  }
 }
 
 .gallery-panel,

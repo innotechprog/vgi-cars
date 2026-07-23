@@ -108,6 +108,6 @@ $footerWhyItems = [
     'Trusted buying support',
     'Enthusiast-led service',
 ];
-$footerScripts = ['js/main.js?v=20260720d'];
+$footerScripts = ['js/main.js?v=20260723b'];
 require __DIR__ . '/footer.php';
 ?>

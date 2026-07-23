@@ -7,8 +7,20 @@ $footerWhyItems = $footerWhyItems ?? [
     'Trusted buying support',
     'Enthusiast-led service',
 ];
-$footerScripts = $footerScripts ?? ['js/main.js?v=20260720d'];
+$footerScripts = $footerScripts ?? ['js/main.js?v=20260723b'];
 $whatsAppHref = $whatsAppHref ?? 'https://wa.me/27789796523?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
+
+if (!isset($assetBase)) {
+  $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+  $assetBase = ($scriptDir === '/' || $scriptDir === '.' || $scriptDir === '') ? '' : rtrim($scriptDir, '/');
+}
+
+if (!isset($asset) || !is_callable($asset)) {
+  $asset = static function (string $path) use ($assetBase): string {
+    $path = ltrim(str_replace('\\', '/', $path), '/');
+    return ($assetBase === '' ? '' : $assetBase) . '/' . $path;
+  };
+}
 
 if (!isset($settingsService)) {
   try {
@@ -27,14 +39,39 @@ $setting = static function (string $key, string $default = '') use (&$settingsSe
   return $value !== '' ? $value : $default;
 };
 
-$sitePhone = $setting('site_phone', '');
+$profileFallback = [
+  'phone_number' => '+27 78 979 6523',
+  'email' => 'info@vgicars.co.za',
+  'facebook' => '',
+  'instagram' => '',
+  'linkedin' => '',
+];
+
+if (isset($db) && $db instanceof PDO) {
+  try {
+    $stmt = $db->query("SELECT phone_number, email, facebook, instagram, linkedin FROM users WHERE role = 'admin' ORDER BY user_id ASC LIMIT 1");
+    $row = $stmt ? $stmt->fetch() : false;
+    if (is_array($row)) {
+      foreach ($profileFallback as $key => $defaultValue) {
+        $value = trim((string) ($row[$key] ?? ''));
+        if ($value !== '') {
+          $profileFallback[$key] = $value;
+        }
+      }
+    }
+  } catch (Throwable $e) {
+    // Keep static fallbacks if lookup fails.
+  }
+}
+
+$sitePhone = $setting('site_phone', '0789796523');
 if ($sitePhone === '') {
-  $sitePhone = $setting('company_phone', '+27 78 979 6523');
+  $sitePhone = $setting('company_phone', $profileFallback['phone_number']);
 }
 
 $siteEmail = $setting('site_contact_email', '');
 if ($siteEmail === '') {
-  $siteEmail = $setting('smtp_from_email', 'autogroupsb@gmail.com');
+  $siteEmail = $setting('smtp_from_email', $profileFallback['email']);
 }
 
 $settingPhone = preg_replace('/[^0-9]/', '', $sitePhone);
@@ -43,10 +80,21 @@ if ($settingPhone === '') {
 }
 
 $defaultWhatsapp = 'https://wa.me/' . $settingPhone . '?text=Hello%20VGi%20Cars%2C%20I%20would%20like%20to%20chat%20about%20a%20vehicle.';
-$whatsAppHref = $setting('social_whatsapp', $whatsAppHref ?: $defaultWhatsapp);
-$facebookHref = $setting('social_facebook', 'https://www.facebook.com/');
-$instagramHref = $setting('social_instagram', 'https://www.instagram.com/');
-$linkedinHref = $setting('social_linkedin', 'https://www.linkedin.com/');
+$whatsAppHref = $defaultWhatsapp;
+$facebookHref = $setting('social_facebook', '');
+if ($facebookHref === '') {
+  $facebookHref = $profileFallback['facebook'] !== '' ? $profileFallback['facebook'] : 'https://www.facebook.com/';
+}
+
+$instagramHref = $setting('social_instagram', '');
+if ($instagramHref === '') {
+  $instagramHref = $profileFallback['instagram'] !== '' ? $profileFallback['instagram'] : 'https://www.instagram.com/don.joachim60s?igsh=MWdqcG5obXphYjdqeQ==&utm_source=ig_contact_invite';
+}
+
+$linkedinHref = $setting('social_linkedin', '');
+if ($linkedinHref === '') {
+  $linkedinHref = $profileFallback['linkedin'] !== '' ? $profileFallback['linkedin'] : 'https://www.linkedin.com/';
+}
 $footerSocialLinks = $footerSocialLinks ?? [
   [
   'href' => $facebookHref,
@@ -73,8 +121,18 @@ $footerSocialLinks = $footerSocialLinks ?? [
     'class' => 'is-linkedin',
   ],
 ];
-$footerLogoPath = 'images/vgilogo.png';
+$footerLogoPath = $asset('images/vgilogo.png');
 $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+$scriptSrc = static function (string $script) use ($asset): string {
+  $script = trim($script);
+  if ($script === '' || preg_match('#^(https?:)?//#i', $script)) {
+    return $script;
+  }
+
+  $parts = explode('?', $script, 2);
+  $path = $asset($parts[0]);
+  return isset($parts[1]) ? ($path . '?' . $parts[1]) : $path;
+};
 ?>
   <footer class="site-footer" id="<?= $escape($footerId) ?>">
     <div class="container footer-grid">
@@ -104,8 +162,8 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
       <div>
         <h4>Contact Us</h4>
         <ul>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:<?= $escape($settingPhone) ?>"><?= $escape($sitePhone) ?></a></li>
-          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:<?= $escape($siteEmail) ?>"><?= $escape($siteEmail) ?></a></li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:=0789796523">+27789796523</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:info@vgicars.co.za">info@vgicars.co.za</a></li>
           <li><i class="fa-solid fa-location-dot"></i> 25/ 27 Heidelberg Rd, Village Main, Johannesburg, 2001</li>
         </ul>
         <div class="footer-social-links" aria-label="VGi Cars social media links">
@@ -135,7 +193,7 @@ $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTE
   </a>
 
   <?php foreach ($footerScripts as $script): ?>
-    <script src="<?= $escape((string) $script) ?>" defer></script>
+    <script src="<?= $escape($scriptSrc((string) $script)) ?>" defer></script>
   <?php endforeach; ?>
 </body>
 </html>

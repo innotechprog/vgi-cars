@@ -20,8 +20,19 @@
     grid-column: 1 / -1;
   }
 
-  .details-layout {
-    grid-template-columns: 1fr;
+  .gallery-panel,
+  .info-panel {
+    padding: 0.85rem;
+  }
+
+  .info-panel h1 {
+    font-size: clamp(1.75rem, 4.2vw, 2.2rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .info-panel .price {
+    font-size: clamp(1.35rem, 3vw, 1.7rem);
   }
 }
 
@@ -83,6 +94,80 @@
   .spec-table {
     grid-template-columns: 1fr;
   }
+
+  .details-layout {
+    gap: 0.9rem;
+  }
+
+  .gallery-panel,
+  .info-panel,
+  .tab-panel {
+    padding: 0.75rem;
+  }
+
+  .main-image-wrap img {
+    aspect-ratio: 16 / 11;
+  }
+
+  .main-image-wrap:hover img {
+    transform: none;
+  }
+
+  .gallery-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+
+  .gallery-nav-prev {
+    left: 0.5rem;
+  }
+
+  .gallery-nav-next {
+    right: 0.5rem;
+  }
+
+  .thumb {
+    flex: 0 0 96px;
+  }
+
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-left: -0.15rem;
+    margin-right: -0.15rem;
+    padding: 0 0.15rem 0.2rem;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .spec-row {
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+
+  .spec-row strong {
+    overflow-wrap: anywhere;
+    text-align: right;
+  }
+
+  .dealer-card p {
+    overflow-wrap: anywhere;
+  }
+
+  .actions-row .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 620px) {
@@ -102,19 +187,16 @@
   .perks-grid,
   .footer-grid,
   .search-grid,
-  .thumb-row,
   .about-stats {
     grid-template-columns: 1fr;
   }
 
-  #featuredGrid,
-  #relatedVehicles {
+  #featuredGrid {
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
   }
 
-  #featuredGrid .vehicle-card,
-  #relatedVehicles .vehicle-card {
+  #featuredGrid .vehicle-card {
     border-radius: 0;
   }
 
@@ -146,10 +228,81 @@
     flex-direction: column;
   }
 
+  .actions-row .btn {
+    width: 100%;
+  }
+
   .breadcrumb {
     font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.6rem;
   }
-  
+
+  .gallery-panel,
+  .info-panel {
+    padding: 0.55rem;
+  }
+
+  .main-image-wrap {
+    border-radius: 10px;
+  }
+
+  .main-image-wrap img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .thumb-row {
+    margin-top: 0.65rem;
+    gap: 0.45rem;
+  }
+
+  .thumb {
+    flex: 0 0 78px;
+    border-radius: 7px;
+  }
+
+  .gallery-nav {
+    width: 34px;
+    height: 34px;
+  }
+
+  .gallery-counter {
+    right: 0.5rem;
+    bottom: 0.5rem;
+    font-size: 0.72rem;
+    padding: 0.22rem 0.55rem;
+  }
+
+  .info-panel h1 {
+    font-size: clamp(1.55rem, 7vw, 1.95rem);
+  }
+
+  .info-panel .price {
+    font-size: 1.3rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .spec-chips {
+    gap: 0.35rem;
+  }
+
+  .spec-chips li {
+    font-size: 0.74rem;
+    padding: 0.28rem 0.55rem;
+  }
+
+  .tab-panel {
+    padding: 0.85rem 0.75rem;
+  }
+
+  .tab-panel h2 {
+    font-size: 1.35rem;
+  }
+
+  .finance-grid .btn {
+    width: 100%;
+  }
+
   .whatsapp-float {
     right: 14px;
     bottom: 14px;
